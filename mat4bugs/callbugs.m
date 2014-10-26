@@ -22,7 +22,8 @@ switch computer
     case {'MACI64'}
         output = calljags_mac(options);
     otherwise
-        error('Unknown architecture "%s".', computer)
+        error_tag('trinity:callbugs:unknownArch', ...
+            'Unknown architecture "%s".', computer)
 end
 
 stats        = output.stats;

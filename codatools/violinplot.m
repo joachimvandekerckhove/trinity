@@ -11,7 +11,7 @@ function varargout = violinplot(coda, varargin)
 % Check input
 if nargin < 2
     if nargin < 1
-        error('trinity:violinplot:badInput', ...
+        error_tag('trinity:violinplot:badInput', ...
             'Insufficient input to violinplot.')
     end
     target = '.';

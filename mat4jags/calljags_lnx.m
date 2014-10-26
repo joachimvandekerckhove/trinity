@@ -146,7 +146,7 @@ if doparallel
     
     if status
         parsed = parse_jags_errors(options, result);
-        error('trinity:calljags_lnx:launch_jags:errorcallingparallel',...
+        error_tag('trinity:calljags_lnx:launch_jags:errorcallingparallel',...
             'System threw error:\n%s\n%s', result, parsed)
     end
     
@@ -170,7 +170,7 @@ else % Run each chain serially
     end
     
     if any([status{:}])
-        error('trinity:calljags_lnx:launch_jags:errorcallingjags',...
+        error_tag('trinity:calljags_lnx:launch_jags:errorcallingjags',...
             'System threw errors:\n%s\n', result{[status{:}]})
     end
 end
@@ -243,7 +243,7 @@ end
                     'Error encountered in JAGS (chain %d):\n%s\n', ...
                     iChain, resultnow);
             end
-            error('trinity:calljags_lnx:error_checking:jagsError', ...
+            error_tag('trinity:calljags_lnx:error_checking:jagsError', ...
                 'Stopping execution because of JAGS error:\n%s', msg);
         end
         

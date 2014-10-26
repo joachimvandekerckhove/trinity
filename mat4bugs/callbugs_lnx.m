@@ -12,4 +12,5 @@ function output = callbugs_lnx(varargin)
 
 % (c) 2013 Joachim Vandekerckhove. See license.txt for licensing information.
 
-error('WinBUGS is not supported on Linux.')
+error_tag('trinity:callbugs_lnx:nobugsinlinux', ...
+    'WinBUGS is not supported on Linux.')

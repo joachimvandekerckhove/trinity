@@ -12,7 +12,7 @@ switch lower(engine)
     case 'stan'
         defaults = defaults_stan();
     otherwise
-        error('trinity:trinity_input_parser:unknownEngine', ...
+        error_tag('trinity:trinity_input_parser:unknownEngine', ...
             'Unknown engine "%s".', engine)
 end
 defaults = updatestruct(defaults_all(), defaults, false);
@@ -26,7 +26,7 @@ else % So it has to be label-value pairs
     labels = varargin(1:2:end);
     values = varargin(2:2:end);
     if numel(labels)~=numel(values)
-        error('trinity:trinity_input_parser:oddInput', ...
+        error_tag('trinity:trinity_input_parser:oddInput', ...
             'To list options, make label-value pairs.')
     end
     for l = 1:numel(labels)
@@ -117,7 +117,7 @@ newfields = fieldnames(source);
 unknown = setdiff(newfields, oldfields);
 if check && ~isempty(unknown)
     fprintf('Unknown field(s): %s\n', sprintf('\n- %s', unknown{:}));
-    error('trinity_input_parser:updatestruct:unknownFields', ...
+    error_tag('trinity:trinity_input_parser:updatestruct:unknownFields', ...
         'Unknown fields are not permitted.')
 end
 
@@ -132,12 +132,12 @@ end
 
 n = length(varargin);
 if (mod(n, 2))
-    error('Each option must be a string/value pair.');
+    error_tag('Each option must be a string/value pair.');
 end
 
 % Check the number of supplied output arguments
 if (nargout < (n / 2))
-    error('Insufficient number of output arguments given');
+    error_tag('Insufficient number of output arguments given');
 elseif (nargout == (n / 2))
     warn = 1;
     nout = n / 2;

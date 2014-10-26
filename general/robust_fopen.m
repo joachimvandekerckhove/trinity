@@ -6,7 +6,7 @@ end
 
 [fid, message] = fopen(fn, flag);
 if fid == -1
-    error('trinity:robust_fopen:errorOpeningFile', ...
+    error_tag('trinity:robust_fopen:errorOpeningFile', ...
         'Error opening %s: %s', fn, message);
 end
 

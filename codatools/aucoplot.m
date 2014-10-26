@@ -12,7 +12,7 @@ function varargout = aucoplot(coda, varargin)
 % Check input
 if nargin < 2
     if nargin < 1
-        error('trinity:aucoplot:badInput', ...
+        error_tag('trinity:aucoplot:badInput', ...
             'Insufficient input to aucoplot.')
     end
     varargin{1} = '.';

@@ -24,7 +24,8 @@ switch computer
     case {'MACI64'}
         options = calljags_mac(options);
     otherwise
-        error('Unknown architecture "%s".', computer)
+        error_tag('trinity:calljags:unknownArch', ...
+            'Unknown architecture "%s".', computer)
 end
 
 coda = jags2coda(options);

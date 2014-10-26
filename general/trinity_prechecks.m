@@ -30,9 +30,9 @@ function options = check_wdir(options)
 workingdir = options.workingdir;
 
 if ~exist(workingdir, 'dir')
-    [status, message, messageid]  = mkdir(workingdir);
+    [status, message]  = mkdir(workingdir);
     if status ~= 1
-        error(messageid, message);
+        error_tag('trinity:trinity_prechecks:wdirError', message);
     end
 end
 
@@ -52,7 +52,7 @@ workingdir    = options.workingdir;
 switch class(model)
     case 'char'  % it can be a filename...
         if ~isempty(modelfilename)
-            error('trinity:trinity_prechecks:check_model:conflictinginputmodel', ...
+            error_tag('trinity:trinity_prechecks:check_model:conflictinginputmodel', ...
                 'If the model is defined as a file name, "modelfilename" must be empty.');
         end
         modelfilename = model;
@@ -78,7 +78,7 @@ datafilename = options.datafilename;
 switch class(data)
     case 'char'    % it can be a filename...
         if ~isempty(datafilename)
-            error('trinity:trinity_prechecks:check_data:conflictinginputdata', ...
+            error_tag('trinity:trinity_prechecks:check_data:conflictinginputdata', ...
                 'If the data is defined as a file name, "datafilename" must be empty.');
         end
         datafilename = data;
@@ -115,7 +115,7 @@ for c = 1:nchains
     switch class(init{c})
         case 'char'    % it can be a filename...
             if ~isempty(initfilename)
-                error('trinity:check_inits:trinity_prechecks:conflictinginputinit', ...
+                error_tag('trinity:check_inits:trinity_prechecks:conflictinginputinit', ...
                     'If the initial values is defined as a file name, "initfilename" must be empty.');
             end
             initfilename{c} = init{c};
@@ -188,12 +188,12 @@ function assertunlocked(filename, qtype)
 switch qtype
     case 'file'
         if ~exist(filename, 'file')
-            error('trinity:trinity_prechecks:assertunlocked:filemissing', ...
+            error_tag('trinity:trinity_prechecks:assertunlocked:filemissing', ...
                 'Unable to access "%s" (file missing).', filename);
         end
     case 'dir'
         if ~iswritable(filename)
-            error('trinity:trinity_prechecks:assertunlocked:unwritablewdir', ...
+            error_tag('trinity:trinity_prechecks:assertunlocked:unwritablewdir', ...
                 ['Could not write to directory "%s" ', ...
                 '(not a local permissions issue).'], filename);
         end
@@ -201,11 +201,11 @@ end
 
 [~, f] = fileattrib(filename);
 if ~f.UserRead
-    error('trinity:trinity_prechecks:assertunlocked:readprotected', ...
+    error_tag('trinity:trinity_prechecks:assertunlocked:readprotected', ...
         'Unable to access "%s" (read-protected).', filename);
 end
 if ~f.UserWrite
-    error('trinity:trinity_prechecks:assertunlocked:writeprotected', ...
+    error_tag('trinity:trinity_prechecks:assertunlocked:writeprotected', ...
         'Unable to access "%s" (write-protected).', filename);
 end
 
@@ -243,7 +243,7 @@ function s = iswritable(varargin)
 %   12/08/2005
 
 if nargin > 1
-    error('trinity:trinity_prechecks:iswritable:badInput', ...
+    error_tag('trinity:trinity_prechecks:iswritable:badInput', ...
         'Too many input arguments');
 elseif nargin == 1
     folderName = varargin{1};
@@ -269,7 +269,7 @@ if exist(folderName, 'dir') == 7
         end
     end
 else
-    error('trinity:trinity_prechecks:iswrite:wdirmissing', ...
+    error_tag('trinity:trinity_prechecks:iswrite:wdirmissing', ...
         'Folder "%s" does not exist', folderName);
 end
 end

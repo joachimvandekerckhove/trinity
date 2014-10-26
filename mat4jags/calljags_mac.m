@@ -145,7 +145,7 @@ if doparallel
     [status, result] = system(cmd);
     
     if status
-        error('trinity:calljags_mac:errorcallingparallel',...
+        error_tag('trinity:calljags_mac:errorcallingparallel',...
             'System threw error:\n%s', result)
     end
     
@@ -169,7 +169,7 @@ else % Run each chain serially
     end
     
     if any([status{:}])
-        error('trinity:calljags_mac:errorcallingjags',...
+        error_tag('trinity:calljags_mac:errorcallingjags',...
             'System threw errors:\n%s\n', result{[status{:}]})
     end
 end
@@ -242,7 +242,7 @@ end
                     'Error encountered in JAGS (chain %d):\n%s\n', ...
                     iChain, resultnow);
             end
-            error('trinity:calljags_mac:error_checking:jagsError', ...
+            error_tag('trinity:calljags_mac:error_checking:jagsError', ...
                 'Stopping execution because of JAGS error:\n%s', msg);
         end
         

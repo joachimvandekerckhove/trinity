@@ -19,7 +19,7 @@ elseif iscell(options)
     workingdir =       '' ;
     verbosity  =       0  ;
 else
-    error('trinity:jags2coda:badInput', ['JAGS2CODA accepts as input either an' ...
+    error_tag('trinity:jags2coda:badInput', ['JAGS2CODA accepts as input either an' ...
         ' options structure or a cell list of coda file names.'])
 end
 

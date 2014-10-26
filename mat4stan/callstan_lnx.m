@@ -71,7 +71,7 @@ end
 [status, output] = system(cmd);
 
 if status || ~isempty(strfind(output, 'FAILURE'))
-    error('trinity:callstan_lnx:makeerror', ...
+    error_tag('trinity:callstan_lnx:makeerror', ...
         'System threw make error: %s', output)
 end
 
@@ -184,7 +184,7 @@ if verbosity > 2
 end
 
 if status
-    error('trinity:callstan_lnx:stanerror', ...
+    error_tag('trinity:callstan_lnx:stanerror', ...
         'System threw Stan error: %s', output)
 end
 
@@ -213,7 +213,8 @@ if doparallel
     filenm = sprintf('stan_output.txt');
     [fid, message] = fopen(filenm, 'wt');
     if fid == -1
-        error(message);
+        error_tag('trinity:callstan_lnx:save_stan_output:fileOpenErrorPar', ...
+            message);
     end
     fprintf(fid, '%s', result);
     fclose(fid);
@@ -222,7 +223,8 @@ else
         filenm = sprintf('stan_output_%d.txt', iChain);
         [fid, message] = fopen(filenm, 'wt');
         if fid == -1
-            error(message);
+            error_tag('trinity:callstan_lnx:save_stan_output:fileOpenError', ...
+                message);
         end
         resultnow = result{iChain};
         fprintf(fid, '%s', resultnow);
@@ -260,7 +262,7 @@ error_parser(result);
                     'Error encountered in Stan (chain %d):\n%s\n', ...
                     iChain, resultnow);
             end
-            error('trinity:callstan_lnx:error_checking:stanerror', ...
+            error_tag('trinity:callstan_lnx:error_checking:stanerror', ...
                 'Stopping execution because of Stan error:\n%s', msg);
         end
         

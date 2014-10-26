@@ -136,14 +136,14 @@ if isempty(File)  % Accept empty matrix as input:
       File = cd;
       return;
    else
-      error(['JSimon:', mfilename, ':BadTypeInput1'], ...
-         ['*** ', mfilename, ': Input must be a string or cell string']);
+      error_tag(['trinity:JSimon:', mfilename, ':BadTypeInput0'], ...
+         'Input must be a string or cell string.');
    end
 end
 
 if ischar(File) == 0  % Non-empty inputs must be strings
-   error(['JSimon:', mfilename, ':BadTypeInput1'], ...
-      ['*** ', mfilename, ': Input must be a string or cell string']);
+   error_tag(['trinity:JSimon:', mfilename, ':BadTypeInput1'], ...
+      'Input must be a string or cell string.');
 end
 
 if isWIN  % Windows: --------------------------------------------------------
@@ -307,8 +307,8 @@ end
 % "Very" long names under Windows:
 if isWIN
    if ~ischar(Style)
-      error(['JSimon:', mfilename, ':BadTypeInput2'], ...
-         ['*** ', mfilename, ': Input must be a string or cell string']);
+      error_tag(['trinity:JSimon:', mfilename, ':BadTypeInput2'], ...
+         'Input must be a string or cell string');
    end
    
    if (strncmpi(Style, 'a', 1) && length(File) >= MAX_PATH) || ...

@@ -63,7 +63,7 @@ function [w, target, func_list] = parseInput(coda, varargin)
 
 switch nargin
     case 0
-        error('trinity:codatable:parseInput:insufficientInput', ...
+        error_tag('trinity:codatable:parseInput:insufficientInput', ...
             'Insufficient input to codatable.')
     case 1
         target = '.';
@@ -76,7 +76,7 @@ switch nargin
             target = '.';
             func_list = varargin;
         else
-            error('trinity:codatable:parseInput:badInput1', ...
+            error_tag('trinity:codatable:parseInput:badInput1', ...
                 'Second argument to codatable was of illegal type "%s".', ...
                 class(varargin{1}))
         end
@@ -84,13 +84,13 @@ switch nargin
         if isa(varargin{1}, 'char')
             target = varargin{1};
         else
-            error('trinity:codatable:parseInput:badInput2', ...
+            error_tag('trinity:codatable:parseInput:badInput2', ...
                 'Second argument to codatable was of illegal type "%s".', ...
                 class(varargin{1}))
         end
         func_list = varargin(2:end);
         if ~all(cellfun(@(x)isa(x,'function_handle'), func_list))
-            error('trinity:codatable:parseInput:badInput3', ...
+            error_tag('trinity:codatable:parseInput:badInput3', ...
                 'Final arguments to codatable must be function handles.')
         end
 end
@@ -104,11 +104,11 @@ elseif ischar(coda) % If user tried command syntax
     if length(dbstack)==2
         w = evalin('base', coda);
     else
-        error('trinity:codatable:parseInput:noCommandSyntac', ...
+        error_tag('trinity:codatable:parseInput:noCommandSyntac', ...
             'Command syntax for codatable is only valid from the command line.')
     end
 else
-    error('trinity:codatable:parseInput:badInput4', ...
+    error_tag('trinity:codatable:parseInput:badInput4', ...
         'First argument to codatable must be coda structure or matrix.')
 end
 
@@ -146,7 +146,7 @@ i_islgc = cellfun(@islogical, mtx(2,:));
 
 if ~all(i_isstr|i_isnum)
     f = find(~all(i_isstr|i_isnum), 1, 'first');
-    error('trinity:codatable:unknownOutputType', ...
+    error_tag('trinity:codatable:unknownOutputType', ...
         'Printing of variables of type %s is not implemented.', ...
         class(mtx(2,f)))
 end

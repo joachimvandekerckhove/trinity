@@ -11,7 +11,7 @@ function varargout = traceplot(coda, varargin)
 % Check input
 if nargin < 2
     if nargin < 1
-        error('trinity:traceplot:badInput', ...
+        error_tag('trinity:traceplot:badInput', ...
             'Insufficient input to traceplot.')
     end
     varargin{1} = '.';

@@ -51,6 +51,6 @@ switch variable
 
 %% ----- OTHERWISE ----------------------------------------------------- %%
     otherwise
-        error('trinity:trinity_preferences:badswitch', ...
+        error_tag('trinity:trinity_preferences:badswitch', ...
             'Unknown preference option "%s".', variable)
 end

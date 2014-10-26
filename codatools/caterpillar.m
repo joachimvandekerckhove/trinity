@@ -11,7 +11,7 @@ function varargout = caterpillar(coda, varargin)
 % Check input
 if nargin < 2
     if nargin < 1
-        error('trinity:caterpillar:badInput', ...
+        error_tag('trinity:caterpillar:badInput', ...
             'Insufficient input to caterpillar.')
     end
     target = '.';

@@ -17,13 +17,13 @@ if isstruct(options)
 elseif iscell(options)
     coda_files = options             ;
 else
-    error('trinity:stan2coda:badInput', ['STAN2CODA accepts as input either an' ...
+    error_tag('trinity:stan2coda:badInput', ['STAN2CODA accepts as input either an' ...
         ' options structure or a cell list of coda file names.'])
 end
 
 % Find all header lines
 if ~exist(coda_files{1}, 'file')
-    error('trinity:stan2coda:stansamplesfilemissing', ...
+    error_tag('trinity:stan2coda:stansamplesfilemissing', ...
         'Samples file %s not found. Bailing out.', coda_files{1})
 end
 
@@ -61,7 +61,7 @@ end
 delete(stream);
 
 if isempty(alllabels)
-    error('trinity:stan2coda:stansamplesmissing', ...
+    error_tag('trinity:stan2coda:stansamplesmissing', ...
         'Samples file %s contains no samples. Bailing out.', coda_files{1})
 end
 

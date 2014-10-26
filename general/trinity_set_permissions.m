@@ -8,7 +8,7 @@ switch computer
     case {'MACI64'}
         status = system(sprintf('chmod %s %s', flag, fn));
     otherwise
-        error('trinity:set_permissions:unknownArch', ...
+        error_tag('trinity:set_permissions:unknownArch', ...
             'Unknown architecture "%s".', computer)
 end
 

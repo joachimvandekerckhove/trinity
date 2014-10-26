@@ -56,7 +56,7 @@ switch style
             name = force_path_and_extension(name, style, options);
         end
     otherwise
-        error('trinity:trinity_untitled:unknownstyle', ...
+        error_tag('trinity:trinity_untitled:unknownstyle', ...
             'Unknown filename style "%s".', style)
 end
 

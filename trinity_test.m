@@ -7,7 +7,7 @@ N = 100;
 x = randn(N, 1);  x = (x-mean(x))./std(x) + 2;
 data = struct('N', N, 'x', x);
 engine = 'jags';
-engine = 'stan';
+% engine = 'stan';
 
 switch engine
     case 'jags'

@@ -12,7 +12,7 @@ function varargout = smhist(coda, varargin)
 % Check input
 if nargin < 2
     if nargin < 1
-        error('trinity:smhist:badInput', ...
+        error_tag('trinity:smhist:badInput', ...
             'Insufficient input to smhist.')
     end
     target = '.';

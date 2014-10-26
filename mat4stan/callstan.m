@@ -24,7 +24,8 @@ switch computer
     case {'MACI64'}
         options = callstan_mac(options);
     otherwise
-        error('Unknown architecture "%s".', computer)
+        error_tag('trinity:callstan:unknownArch', ...
+            'Unknown architecture "%s".', computer)
 end
 
 coda = stan2coda(options);

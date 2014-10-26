@@ -63,11 +63,11 @@ end
 
 
 feedbackStr = '';
-feedbackStr = sprintf('%s %%\n', feedbackStr);
-feedbackStr = sprintf('%s %% %s:\n', feedbackStr, errorMessage);
-feedbackStr = sprintf('%s %%\n', feedbackStr);
+feedbackStr = sprintf('%s |\n', feedbackStr);
+feedbackStr = sprintf('%s | %s:\n', feedbackStr, errorMessage);
+feedbackStr = sprintf('%s |\n', feedbackStr);
 for ctr = 1:numel(modelCell)
-    feedbackStr = sprintf('%s %% ', feedbackStr);
+    feedbackStr = sprintf('%s | ', feedbackStr);
     if ctr==lineNumber
         notSpace = find(modelCell{ctr}~=' ', 1, 'first');
         feedbackStr = sprintf('%s%s<a href="matlab:edit(''%s'')">%s</a>\n', ...
@@ -77,4 +77,4 @@ for ctr = 1:numel(modelCell)
         feedbackStr = sprintf('%s      %s\n', feedbackStr, modelCell{ctr});
     end
 end
-feedbackStr = sprintf('%s %%\n', feedbackStr);
+feedbackStr = sprintf('%s |\n', feedbackStr);
