@@ -1,5 +1,10 @@
 function str2data(engine, varargin)
 % STR2DATA  Write data file from structure
+%
+%   STR2DATA(ENGINE, DATAFILENAME, DATASTRUCT) writes the variables in 
+%   DATASTRUCT to a file named DATAFILENAME in a format appropriate for
+%   ENGINE.
+%
 
 % (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
