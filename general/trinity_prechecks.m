@@ -1,7 +1,7 @@
 function options = trinity_prechecks(options)
 % TRINITY_PRECHECKS  Checks preconditions before launching engine
 
-% (c)2013 Joachim Vandekerckhove. See license.txt for licensing information.
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 
 % Check that working dir exists and is writable
@@ -47,7 +47,7 @@ function options = check_model(options)
 
 model         = options.model;
 modelfilename = options.modelfilename;
-workingdir    = options.workingdir;
+% workingdir    = options.workingdir;
 
 switch class(model)
     case 'char'  % it can be a filename...
@@ -65,7 +65,11 @@ assertunlocked(modelfilename, 'file');
 
 trinity_set_permissions('+x', modelfilename);
 
-options.model = get_full_path(modelfilename);
+options.model         = get_full_path(modelfilename);
+options.modelfilename = modelfilename;
+
+grammar_check(options);
+
 end
 
 %% --------------------------------------------------------------------- %%
@@ -272,4 +276,28 @@ else
     error_tag('trinity:trinity_prechecks:iswrite:wdirmissing', ...
         'Folder "%s" does not exist', folderName);
 end
+end
+
+%% --------------------------------------------------------------------- %%
+function grammar_check(options)
+% GRAMMAR_CHECK  Does limited robustness check of model
+
+modelfilename    = options.modelfilename;
+allowunderscores = options.allowunderscores;
+
+model = model2cell(modelfilename);
+
+if ~allowunderscores
+    underscores = cellfun(@(x)any(x=='_'), model);
+    
+    if any(underscores)
+        error_tag('trinity:trinity_prechecks:grammar_check:illegal_character', ...
+            ['The _ character is reserved for internal use in Trinity, '...
+             'but was found in your model specification. To force Trinity ' ...
+             'to ignore this restriction, set the "allowunderscores" option ' ...
+             'to 1. However, this may cause unexpected behavior, and it is ' ...
+             'recommended to remove underscores from the model specification instead.'])
+    end
+end
+
 end

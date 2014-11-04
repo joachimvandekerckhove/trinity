@@ -1,4 +1,25 @@
 function varargout = getdic(ch)
+% GETDIC  Compute Plummer's DIC from chains
+%  GETDIC computes an estimate of the Deviance Information Criterion using
+%  only samples from the Monte Carlo chains. Plummer's approximation to
+%  DIC is mean(-2 ln L) + 0.5 * var(-2 ln L). Note that long, converged
+%  chains are required for stable estimates of DIC.
+%
+%  DIC = GETDIC(CODA) will return Plummer's DIC.
+% 
+%  [DIC, HALF] = GETDIC(CODA) additionally returns HALF, a two-element
+%  vector containing DIC estimates computed on the first and second half of
+%  the chains.
+% 
+%  [DIC, HALF, QTR] = GETDIC(CODA) additionally returns QTR, a four-element
+%  vector containing DIC estimates computed on each quarter of the chains.
+%  
+%  HALF and QTR can be used to assess the stability of DIC estimates.
+% 
+%  See also: CODATABLE
+% 
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 chains.deviance = ch.deviance;
 

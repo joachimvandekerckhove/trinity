@@ -1,19 +1,25 @@
 function feedbackStr = parse_jags_errors(options, result)
+% PARSE_JAGS_ERRORS  Give intelligent feedback on JAGS errors
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 model          = options.model          ;
 
 findSyntax = strfind(result, 'syntax error on line'); 
 findCompil = strfind(result, 'Compilation error on line'); 
 findMismat = strfind(result, 'Dimension mismatch in values supplied for'); 
+findIdxoor = strfind(result, 'Index out of range for'); 
 nojags     = strfind(result, 'jags: command not found');
 
-if ~isempty(findSyntax)
+if ~isempty(nojags)
+    errorCase = 0
+elseif ~isempty(findSyntax)
     errorCase = 1
 elseif ~isempty(findCompil)
     errorCase = 2
 elseif ~isempty(findMismat)
     errorCase = 3
-elseif ~isempty(nojags)
+elseif ~isempty(findIdxoor)
     errorCase = 4
 else
     keyboard
@@ -24,6 +30,10 @@ end
 modelCell = model2cell(model);
 
 switch errorCase
+    case 0
+        feedbackStr = sprintf('%%\n%% JAGS was not found!\n%%');
+        return
+
     case 1
         findSyntax = findSyntax(end);
         
@@ -57,7 +67,7 @@ switch errorCase
         return
         
     case 4
-        feedbackStr = sprintf('%%\n%% JAGS was not found!\n%%');
+        feedbackStr = sprintf('%%\n%% Error is in indexing!\n%%');
         return
 end
 

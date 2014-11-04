@@ -6,15 +6,12 @@ function trinity_assert_parallel()
 
 switch computer
     case {'PCWIN', 'PCWIN64'}
-%         warning('trinity:trinity_assert_parallel:notimplemented', ...
-%             'Parallelization is not tested for Windows.') % TODO
-        
         [havepct, errmsg] = license('checkout', 'distrib_computing_toolbox');
         if ~havepct
             error_tag('trinity:trinity_assert_parallel:pctnotfound', ...
                 ['Parallelization under Windows requires the Parallel', ...
                 ' Computing Toolbox, but Trinity could not check out', ...
-                ' a license. The error message was:\n%s'], errmsg) % TODO
+                ' a license. The error message was:\n%s'], errmsg)
         end
                 
     case {'GLNX86', 'GLNXA64'}
@@ -29,7 +26,7 @@ switch computer
         end
     case {'MACI64'}
         warning('trinity:trinity_assert_parallel:notimplemented', ...
-            'Parallelization is not tested for Mac.') % TODO
+            'Parallelization is not tested for Mac.')
         if ~test_parallel()
             error_tag('trinity:trinity_assert_parallel:gnuparallelnotfound',...
                 ['Parallelization under linux uses GNU parallel, which can' ...

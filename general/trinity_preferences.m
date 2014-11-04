@@ -4,7 +4,7 @@ function a = trinity_preferences(variable)
 %  Use this file to adapt user settings.
 %
 
-% (c)2013-2014 Joachim Vandekerckhove. See license.txt for licensing information.
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 switch variable
     

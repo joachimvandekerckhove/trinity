@@ -1,20 +1,17 @@
 function options = calljags_win(options)
-% CALLJAGS_WIN  Internal function to run JAGS on Windows
+% CALLJAGS_WIN  Executes a call to JAGS on Windows
 %   CALLJAGS_WIN will execute a call to JAGS. Supply a set of options
 %   as a structure. See the Trinity manual for a list of options.
 %
-%    Example usage:
-%       options = calljags_win(options)
-%
-%    See also CALLJAGS
+%    See also: CALLBAYES
 %
 
-% (c)2014 Joachim Vandekerckhove. See license.txt for licensing information.
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 % CALLJAGS to ensure integrity of input
 
 % Move to working directory
-cleanupHandle = move_to_wdir(options);
+cleanupHandle = trinity_move_to_wdir(options);
 
 % Make scripts for each chain
 options = make_jags_scripts(options);
@@ -240,7 +237,7 @@ verbosity      = options.verbosity      ;
 doparallel     = options.parallel       ;
 showwarnings   = options.showwarnings   ;
 result         = options.result         ;
-erroronerror   = true                   ;  % TODO: options.erroronerror   ;
+erroronerror   = true                   ;  % TODO?: options.erroronerror   ;
 
 if doparallel
     for iChain = 1:nchains

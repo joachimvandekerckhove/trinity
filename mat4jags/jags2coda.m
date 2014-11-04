@@ -1,5 +1,5 @@
 function out = jags2coda(options)
-% JAGS2CODA  Reads JAGS samples file into a MATLAB CODA structure.
+% JAGS2CODA  Reads JAGS samples file into a MATLAB CODA structure
 %   OUT = JAGS2CODA(OPTIONS); where OPTIONS is an options structure that contains
 %   at least the field .coda_files, will provide a structure OUT with fields
 %   .samples (containing a structure in which each field is a samples-by-chains
@@ -8,7 +8,9 @@ function out = jags2coda(options)
 %   Also valid is OUT = JAGS2CODA(CODA_FILES); where CODA_FILES is a cell matrix
 %   of coda file names to process.
 %
-%   See also BUGS2CODA, STAN2CODA, TRINITY_READCODA.
+%   See also: BUGS2CODA, STAN2CODA, TRINITY_READCODA
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 if isstruct(options)
     coda_files = options.coda_files  ;

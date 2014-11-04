@@ -1,15 +1,12 @@
 function options = callstan_lnx(options)
-% CALLSTAN_LNX  Internal function to run Stan on Linux
+% CALLSTAN_LNX  Executes a call to Stan on Linux
 %   CALLSTAN_LNX will execute a call to Stan. Supply a set of options
 %   as a structure. See the Trinity manual for a list of options.
 %
-%    Example usage:
-%       output = callstan_lnx(options)
-%
-%    See also = CALLSTAN
+%    See also: CALLSTAN
 %
 
-% (c)2013 Joachim Vandekerckhove. See license.txt for licensing information.
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 % CALLSTAN to ensure integrity of input
 

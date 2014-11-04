@@ -1,5 +1,5 @@
 function File = get_full_path(File, Style)
-% GET_FULL_PATH - Get absolute canonical path of a file or folder
+% GET_FULL_PATH Get absolute canonical path of a file or folder
 % Absolute path names are safer than relative paths, when e.g. a GUI or TIMER
 % callback changes the current directory. Only canonical paths without "." and
 % ".." can be recognized uniquely.

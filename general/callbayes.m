@@ -70,7 +70,7 @@ function [stats, chains, diagnostics, info] = callbayes(engine, varargin)
 %    See also: CALLBUGS, CALLJAGS, CALLSTAN
 %
 
-% (c) 2013-2014 Joachim Vandekerckhove. See license.txt for licensing information.
+% (c) 2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 if ~nargin
     help(mfilename);

@@ -10,7 +10,9 @@ function out = stan2coda(options)
 %   Also valid is OUT = STAN2CODA(CODA_FILES); where CODA_FILES is a cell matrix
 %   of coda file names to process.
 %
-%   See also BUGS2CODA, JAGS2CODA, TRINITY_READCODA.
+%   See also: BUGS2CODA, JAGS2CODA, TRINITY_READCODA
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 if isstruct(options)
     coda_files = options.coda_files  ;

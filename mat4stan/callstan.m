@@ -1,16 +1,13 @@
 function [stats, chains, diagnostics, info] = callstan(varargin)
-% CALLSTAN  Use this function to run Stan
+% CALLSTAN  Executes a call to Stan
 %   CALLSTAN will execute a call to Stan. Supply a set of options 
 %   through label-value pairs or as a structure. See the Trinity
 %   manual for a list of options.
 %   
-%    Example usage:
-%       [stats, chains, diagnostics, info] = callstan('model', 'myModel.stan')
-%
-%    See also: STAN2CODA, CALLJAGS, CALLBUGS
+%    See also: CALLBAYES
 %
 
-% (c)2013 Joachim Vandekerckhove. See license.txt for licensing information.
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 options = trinity_input_parser('stan', varargin{:});
 
@@ -30,7 +27,7 @@ end
 
 coda = stan2coda(options);
 
-output = summary_stats(coda.samples);
+output = trinity_summary_stats(coda.samples);
 
 stats        = output.stats;
 chains       = output.chains;

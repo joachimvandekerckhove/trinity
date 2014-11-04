@@ -1,7 +1,7 @@
 function [filename, datastr] = trinity_string2datastruct(varargin)
-% TRINITY_STRING2DATASTRUCT  Parses string input to data structure. Internal Trinity function.
+% TRINITY_STRING2DATASTRUCT  Parses string input to data structure
 
-% (c)2013 Joachim Vandekerckhove. See license.txt for licensing information.
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 filename = varargin{1};
 

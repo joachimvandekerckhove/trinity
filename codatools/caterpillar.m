@@ -6,7 +6,10 @@ function varargout = caterpillar(coda, varargin)
 %   CATERPILLAR(CODA, TARGET, ...) allows extra input arguments to be
 %   passed along to the plotting functions.
 % 
-%  See also VIOLINPLOT, TRACEPLOT, AUCOPLOT, SMHIST
+%  See also: VIOLINPLOT, TRACEPLOT, AUCOPLOT, SMHIST
+% 
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 % Check input
 if nargin < 2
@@ -38,7 +41,7 @@ else  % Select fields by regular expression
     h = gca;
     
     set(h, 'YTick', 1:n_sel, 'YTickLabel', selection)
-    ylim([0.5 n_sel+0.5])
+    ylim([0.5 n_sel + 0.5])
     if prod(xlim)<0
         line([0 0], ylim, 'color', 'k', 'linestyle', ':', ...
             'linewidth', 2)
@@ -59,12 +62,12 @@ function caterpillar_sub(x, number, varargin)
 x = x(:);
 
 % Draw short line
-plot(prctile(x, [ 2.5 97.5]), [1 1]*number, ...
+plot(prctile(x, [ 2.5 97.5]), [1 1] * number, ...
     'color', 'k', 'LineWidth', 3, varargin{:}, ...
     'Tag', 'caterpillar:shortlines')
 
 % Draw long line
-line(prctile(x, [ 0.5 99.5]), [1 1]*number, ...
+line(prctile(x, [ 0.5 99.5]), [1 1] * number, ...
     'color', 'r', 'LineWidth', 1, varargin{:}, ...
     'linestyle', '-', ...
     'Tag', 'caterpillar:longlines')

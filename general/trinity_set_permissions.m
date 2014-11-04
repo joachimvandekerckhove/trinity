@@ -1,4 +1,7 @@
 function status = trinity_set_permissions(flag, fn)
+% TRINITY_SET_PERMISSIONS  Set permissions for executable scripts
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 switch computer
     case {'PCWIN', 'PCWIN64'}

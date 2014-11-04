@@ -4,13 +4,10 @@ function [stats, chains, diagnostics, info] = calljags(varargin)
 %   through label-value pairs or as a structure. See the Trinity
 %   manual for a list of options.
 %   
-%    Example usage:
-%       [stats, chains, diagnostics, info] = calljags('model', 'myModel.jags')
-%
-%    See also: JAGS2CODA, CALLBUGS, CALLSTAN
+%    See also: CALLBAYES
 %
 
-% (c)2013 Joachim Vandekerckhove. See license.txt for licensing information.
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 options = trinity_input_parser('jags', varargin{:});
 
@@ -30,7 +27,7 @@ end
 
 coda = jags2coda(options);
 
-output = summary_stats(coda);
+output = trinity_summary_stats(coda);
 
 stats        = output.stats;
 chains       = output.chains;

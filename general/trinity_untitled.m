@@ -1,4 +1,7 @@
 function name = trinity_untitled(options, style, idx)
+% TRINITY_UNTITLED  Makes unique if unimaginative names for temporary files
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 engine          = options.engine;
 modelfilename   = options.modelfilename;

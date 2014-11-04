@@ -1,20 +1,17 @@
 function options = calljags_lnx(options)
-% CALLJAGS_LNX  Internal function to run JAGS on Linux
+% CALLJAGS_LNX  Executes a call to JAGS on Linux
 %   CALLJAGS_LNX will execute a call to JAGS. Supply a set of options
 %   as a structure. See the Trinity manual for a list of options.
 %
-%    Example usage:
-%       output = calljags_lnx(options)
-%
-%    See also CALLJAGS
+%    See also: CALLBAYES
 %
 
-% (c)2013 Joachim Vandekerckhove. See license.txt for licensing information.
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 % CALLJAGS to ensure integrity of input
 
 % Move to working directory
-cleanupHandle = move_to_wdir(options);
+cleanupHandle = trinity_move_to_wdir(options);
 
 % Make scripts for each chain
 options = make_jags_scripts(options);

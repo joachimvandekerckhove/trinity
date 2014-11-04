@@ -1,4 +1,4 @@
-%% Fit a trivial model using Trinity and JAGS
+%% Fit a Gaussian distribution using Trinity and JAGS
 % Cleanup first
 clear all
 close all

@@ -1,4 +1,4 @@
-function [str out] = structural(coda,cmd)
+function [str, out] = structural(coda,cmd)
 % STRUCTURAL  Add a structural parameter to a coda structure
 %  Compute a structural parameter inside a coda structure. STRUCTURAL takes
 %  two input variables: a coda structure, and a string containing a valid
@@ -20,18 +20,23 @@ function [str out] = structural(coda,cmd)
 %  Restriction:
 %    The input coda structure cannot contain fields that start with
 %    'do_not_call_your_fields_this_'.
+% 
+%  See also: CODATABLE
+% 
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 if iscell(coda)
     for f = numel(coda):-1:1
-        [str{f} out{f}] = structural_internal(coda{f},cmd);
+        [str{f}, out{f}] = structural_internal(coda{f},cmd);
     end
 else
     for f = numel(coda):-1:1
-        [str(f) out{f}] = structural_internal(coda(f),cmd);
+        [str(f), out{f}] = structural_internal(coda(f),cmd);
     end
 end
 
-function [do_not_call_your_fields_this_structure ...
+function [do_not_call_your_fields_this_structure, ...
     do_not_call_your_fields_this_output] = ...
     structural_internal(do_not_call_your_fields_this_structure,...
     do_not_call_your_fields_this_command)
@@ -55,7 +60,6 @@ for f = 1:numel(fls)
 end
 
 function do_not_call_your_fields_this_structure = wrap(d)
-
 v = {d.name};
 for f = 1:numel(v)
     do_not_call_your_fields_this_structure.(v{f}) = ...

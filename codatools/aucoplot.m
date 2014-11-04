@@ -7,7 +7,10 @@ function varargout = aucoplot(coda, varargin)
 %   AUCOPLOT(CODA, TARGET, ...) allows extra input arguments to be
 %   passed along to the containing axes.
 % 
-%  See also VIOLINPLOT, TRACEPLOT, CATERPILLAR, SMHIST
+%  See also: VIOLINPLOT, TRACEPLOT, CATERPILLAR, SMHIST
+% 
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 % Check input
 if nargin < 2
@@ -60,13 +63,15 @@ title(name, 'interpreter', 'none')
 axis([1 maxlag -1 1])
 
 h = gca;
+
 end
 
 %% --------------------------------------------------------------------- %%
 function r = auco(x, maxlag)
 
-F = fft(x-mean(x), 2^(nextpow2(length(x))+1));  % detrend, pad, and fft
-r = ifft(F.*conj(F));  % conjugate, multiply, and ifft
-r = real(r(1:maxlag+1)./r(1));  % trim, scale, remove imaginary
+n = 2^(nextpow2(length(x)) + 1);    % length of vector
+F = fft(x - mean(x), n);            % detrend, pad, and fft
+r = ifft(F .* conj(F));             % conjugate, multiply, and ifft
+r = real(r(1:maxlag + 1) ./ r(1));  % trim, scale, remove imaginary
 
 end

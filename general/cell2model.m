@@ -1,6 +1,8 @@
 function cell2model(model_cell, fileName)
 % CELL2MODEL  Writes cell string to text file
 
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
+
 [fid, stream] = robust_fopen(fileName, 'w');
 
 for r = 1:numel(model_cell)

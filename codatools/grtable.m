@@ -4,7 +4,10 @@ function grtable(coda, target, cutoff)
 %   an optional regular expression, prints a table with basic convergence
 %   statistics.
 % 
-%  See also CODATABLE, CSTATS, GETMATRIXFROMCODA, GELMANRUBIN
+%  See also: CODATABLE, CSTATS, GETMATRIXFROMCODA, GELMANRUBIN
+% 
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 if nargin < 2  % hand off to codatable
     codatable(coda, '.', @mean, @samples, @n_eff, @Rhat);

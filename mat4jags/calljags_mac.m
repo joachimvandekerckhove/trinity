@@ -1,20 +1,17 @@
 function options = calljags_mac(options)
-% CALLJAGS_MAC  Internal function to run JAGS on Linux
+% CALLJAGS_MAC  Executes a call to JAGS on Linux
 %   CALLJAGS_MAC will execute a call to JAGS. Supply a set of options
 %   as a structure. See the Trinity manual for a list of options.
 %
-%    Example usage:
-%       output = calljags_mac(options)
-%
-%    See also CALLJAGS
+%    See also: CALLBAYES
 %
 
-% (c)2014 Joachim Vandekerckhove. See license.txt for licensing information.
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 % CALLJAGS to ensure integrity of input
 
 % Move to working directory
-cleanupHandle = move_to_wdir(options);
+cleanupHandle = trinity_move_to_wdir(options);
 
 % Make scripts for each chain
 options = make_jags_scripts(options);

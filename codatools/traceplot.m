@@ -6,7 +6,10 @@ function varargout = traceplot(coda, varargin)
 %   TRACEPLOT(CODA, TARGET, ...) allows extra input arguments to be
 %   passed along to the containing axes.
 % 
-%  See also VIOLINPLOT, CATERPILLAR, AUCOPLOT, SMHIST
+%  See also: VIOLINPLOT, CATERPILLAR, AUCOPLOT, SMHIST
+% 
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 % Check input
 if nargin < 2

@@ -15,7 +15,10 @@ function out = getMatrixFromCoda(coda, target, fcn)
 %     MTX = GETMATRIXFROMCODA(CODA, 'MU', @std) will return an M-by-N
 %     matrix MTX, such that MTX(m,n) = std(CODA.MU_m_n).
 % 
-%  See also CODATABLE, GRTABLE, CSTATS
+%  See also: CODATABLE, GRTABLE, CSTATS
+% 
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 if nargin < 3
     fcn = @mean;

@@ -4,7 +4,10 @@ function cstats(coda, target)
 %   optional regular expression, prints a table with basic posterior
 %   statistics.
 % 
-%  See also CODATABLE, GRTABLE, GETMATRIXFROMCODA
+%  See also: CODATABLE, GRTABLE, GETMATRIXFROMCODA
+% 
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 if nargin < 2
     target = '.';

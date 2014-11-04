@@ -6,7 +6,10 @@ function varargout = codatable(coda, varargin)
 %   the result of each function applies to each parameter matched by
 %   TARGET.
 % 
-%  See also GRTABLE, CSTATS, GETMATRIXFROMCODA
+%  See also: GRTABLE, CSTATS, GETMATRIXFROMCODA
+% 
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 % Check input
 [coda, target, func_list] = parseInput(coda, varargin{:});

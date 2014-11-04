@@ -1,4 +1,4 @@
-%% Fit a less trivial model using Trinity and JAGS
+%% Fit an unequal-variance 2-group Gaussian model using Trinity and JAGS
 % This Trinity script is given as an exercise. The assignment is to
 % generate data from two normal distributions with similar means but
 % unequal standard deviations, and to estimate the difference between the
@@ -24,7 +24,7 @@ x2 = randn(n2, 1) * s2 + m2;
 
 %% Now, make all inputs that Trinity needs
 % Write the JAGS model into a variable (cell variable)
-model = {
+model = {  % instructur hides this line
     'model { '
     '    for (c in 1:2) {'
     '        mu[c] ~ dnorm(0, 0.1)      # prior for mu'

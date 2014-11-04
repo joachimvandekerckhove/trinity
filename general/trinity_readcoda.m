@@ -1,10 +1,13 @@
 function out = trinity_readcoda(wdir, sfns, verbosity)
-% TRINITY_READCODA  Reads a BUGS or JAGS CODA file to a MATLAB structure.
+% TRINITY_READCODA  Reads a BUGS or JAGS CODA file to a MATLAB structure
 %   OUT = TRINITY_READCODA(FILENAME, [CHAIN NUMBER], [VARIABLE TO SKIP]), will
 %   provide a structure OUT with fields .samples (containing a structure in 
 %   which each field is a samples-by-chains matrix of a tracked parameter).
 %
-%   See also BUGS2CODA, JAGS2CODA, STAN2CODA.
+%   See also: BUGS2CODA, JAGS2CODA, STAN2CODA
+% 
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 if nargin < 3
     verbosity = 5;

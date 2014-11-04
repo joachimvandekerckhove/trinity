@@ -1,7 +1,7 @@
 function str2data(engine, varargin)
-% STR2BAYES  Write data file from structure
+% STR2DATA  Write data file from structure
 
-% (c)2013 Joachim Vandekerckhove. See license.txt for licensing information.
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 % Force input into data structure
 [filename, datastr] = trinity_string2datastruct(varargin{:});

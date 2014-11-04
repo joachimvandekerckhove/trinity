@@ -6,7 +6,10 @@ function varargout = violinplot(coda, varargin)
 %   VIOLINPLOT(CODA, TARGET, ...) allows extra input arguments to be
 %   passed along to the plotting functions.
 % 
-%  See also TRACEPLOT, CATERPILLAR, AUCOPLOT, SMHIST
+%  See also: TRACEPLOT, CATERPILLAR, AUCOPLOT, SMHIST
+% 
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 % Check input
 if nargin < 2
@@ -56,11 +59,11 @@ py(py<.0005) = NaN;
 
 % Scale distributions down
 [ma_y, idx] = nanmax(py);
-py_a_r =  .25*py./ma_y + number;
-py_a_l = -.25*py./ma_y + number;
+py_a_r =  .25 * py ./ ma_y + number;
+py_a_l = -.25 * py ./ ma_y + number;
 
 % Draw vertical center line
-plot([1 1]*number, ylim, ...
+plot([1 1] * number, ylim, ...
     'color', 'k', 'linestyle', ':', 'Tag', 'violinplot:lines')
 
 % Draw distribution
@@ -74,7 +77,7 @@ line(number, mean(x), 'marker', '.', 'LineWidth', 1.5, ...
     varargin{:}, 'color', 'r', 'Tag', 'violinplot:mean');
 
 % Line for the mode
-line([py_a_l(idx) py_a_r(idx)], [1 1]*px(idx), ...
+line([py_a_l(idx) py_a_r(idx)], [1 1] * px(idx), ...
     varargin{:}, 'color', 'r', 'marker', 'none', 'Tag', 'violinplot:mode');
 
 end

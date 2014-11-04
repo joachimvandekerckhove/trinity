@@ -15,23 +15,26 @@ function varargout = gelmanrubin(coda,burn,thin,specvar)
 %              Bayesian Data Analysis (Second Edition). Chapman & Hall/CRC:
 %              Boca Raton, FL. 
 % 
-%  See also GRTABLE
+%  See also: GRTABLE
+% 
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 %% Input sanity
-if nargin<3
+if nargin < 3
     thin = 1;
-    if nargin<2
+    if nargin < 2
         burn = 0;
     end
 end
 
 % Downsample and burn
-coda = coda(burn+1:thin:end,:);
+coda = coda((burn + 1):thin:end,:);
 
 % Get size
 [niter, nchains] = size(coda);
-if niter<50
-    if niter<1
+if niter < 50
+    if niter < 1
         error_tag('trinity:gelmanrubin:noSamples',...
             'No samples left in chain. Did you burn all your samples?')
     end
@@ -40,31 +43,31 @@ if niter<50
 end
 
 %% Get chain stats
-chainmeans = sum(coda)/niter;
-globalmean = sum(chainmeans)/nchains;
+chainmeans = sum(coda) / niter;
+globalmean = sum(chainmeans) / nchains;
 
 % Compute between- and within-variances and MPV
-b = sum((chainmeans-globalmean).^2)*niter/(nchains-1);
-w = sum(var(coda))/nchains;
-varplus = (niter-1)*w/niter + b/niter;
+b = sum((chainmeans - globalmean).^2) * niter / (nchains - 1);
+w = sum(var(coda)) / nchains;
+varplus = (niter - 1) * w / niter + b / niter;
 
 % Gelma-Rubin statistic
-rhat = sqrt(varplus/w);
+rhat = sqrt(varplus / w);
 
 % Number of effective samples
-neff = floor(min(niter*nchains,niter*nchains*varplus/b));
+neff = floor(min(niter * nchains, niter * nchains * varplus / b));
 
 
 %% Output sanity
 argout = {rhat varplus neff b w};
-if nargin<4
-    if nargout<6
+if nargin < 4
+    if nargout < 6
         varargout = argout(1:nargout);
     else
         error_tag('trinity:gelmanrubin:tooManyOutputs',...
             'Too many output arguments.')
     end
-elseif nargout<2
+elseif nargout < 2
     varargout = {eval(lower(specvar))};
 else
     error_tag('trinity:gelmanrubin:inconsistentRequest',...

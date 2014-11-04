@@ -1,5 +1,7 @@
-function s = summary_stats(coda)
+function s = trinity_summary_stats(coda)
+% TRINITY_SUMMARY_STATS  Computes default STATS from CODA as output by CALLBAYES
 
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 %% Diagnostics
 s.diagnostics.Rhat = structfun(...

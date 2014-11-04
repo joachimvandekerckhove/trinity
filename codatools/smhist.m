@@ -7,7 +7,10 @@ function varargout = smhist(coda, varargin)
 %   SMHIST(CODA, TARGET, ...) allows extra input arguments to be passed
 %   along to the containing axes.
 % 
-%  See also VIOLINPLOT, TRACEPLOT, CATERPILLAR, AUCOPLOT
+%  See also: VIOLINPLOT, TRACEPLOT, CATERPILLAR, AUCOPLOT
+% 
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 % Check input
 if nargin < 2
@@ -30,10 +33,12 @@ else  % Select fields by regular expression
     hs = ishold();  % get hold status
 
     % Then loop over selected fields
+    y = cell(1, n_sel);
+    x = cell(1, n_sel);
     for parameter = 1:n_sel
         [~, y{parameter}, x{parameter}] = smhist_sub(coda.(selection{parameter}), parameter, varargin{:});
         hold on
-        ylim([0 max(ylim*1.4)])
+        ylim([0 max(ylim * 1.4)])
     end
     h = [gca legend(selection{:})];
 %     set(h(2), 'Visible', 'off', 'Tag', 'smhist:legend')
@@ -66,7 +71,7 @@ end
 
 % Figure out color
 colororder = get(gca, 'ColorOrder');
-color = colororder(mod(number-1, size(colororder, 1))+1,:);
+color = colororder(mod(number - 1,size(colororder, 1)) + 1,:);
 
 % Then plot
 h = plot(x, y, 'color', color, 'LineWidth', 2, varargin{:}, ...
