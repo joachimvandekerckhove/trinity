@@ -34,7 +34,7 @@ else  % Select fields by regular expression
     % Then loop over selected fields
     for parameter = 1:n_sel
         caterpillar_sub(coda.(selection{parameter}), ...
-            parameter, varargin{:});
+            n_sel + 1 - parameter, varargin{:});
         hold on
     end
     
