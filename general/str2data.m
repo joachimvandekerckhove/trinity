@@ -80,10 +80,10 @@ end
 % Poorly documented feature: Force collection operator c() on scalar
 % variables whose name starts with COLOP_. Helps to get JAGS do vector
 % operations (such as indexing) even if scalars involved.
-forceColop = numel(varnm)>6 && strcmp(varnm(1:6),'COLOP_');
-forceMatop = numel(varnm)>6 && strcmp(varnm(1:6),'MATOP_');
+forceColop = numel(varnm)>10 && strcmp(varnm(1:10), 'AS_VECTOR_');
+forceMatop = numel(varnm)>10 && strcmp(varnm(1:10), 'AS_MATRIX_');
 if forceColop || forceMatop
-    varnm = varnm(7:end);
+    varnm(1:10) = [];
 end
 
 if ischar(x)

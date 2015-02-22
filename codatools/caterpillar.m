@@ -40,7 +40,7 @@ else  % Select fields by regular expression
     
     h = gca;
     
-    set(h, 'YTick', 1:n_sel, 'YTickLabel', selection)
+    set(h, 'YTick', 1:n_sel, 'YTickLabel', selection(end:-1:1))
     ylim([0.5 n_sel + 0.5])
     if prod(xlim)<0
         line([0 0], ylim, 'color', 'k', 'linestyle', ':', ...

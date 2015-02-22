@@ -14,9 +14,10 @@ s.diagnostics.Neff = structfun(...
 
 %% Compute stats
 
-s.stats.mean = structfun( @mean         , coda, 'uni', 0);
-s.stats.std  = structfun( @std          , coda, 'uni', 0);
-s.stats.plt0 = structfun( @(x)mean(x<0) , coda, 'uni', 0);
+s.stats.mean   = structfun( @(x)mean(x(:))   , coda, 'uni', 0);
+s.stats.std    = structfun( @(x)std(x(:))    , coda, 'uni', 0);
+s.stats.plt0   = structfun( @(x)mean(x(:)<0) , coda, 'uni', 0);
+s.stats.median = structfun( @(x)median(x(:)) , coda, 'uni', 0);
 
 %% Info
 s.info.samplesize = structfun(@numel, coda, 'uni', 0);

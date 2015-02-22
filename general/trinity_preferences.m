@@ -42,7 +42,7 @@ switch variable
 %% ----- STAN ---------------------------------------------------------- %%
     case 'stan_main_dir'
         % Where is Stan (full, absolute paths only)?
-        a = '/home/joachim/stan/';
+        a = '/home/joachim/stan/cmdstan/';
         
     case 'stan_model_dir'
         % Where are the model files (relative to Stan)?

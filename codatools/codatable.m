@@ -172,13 +172,13 @@ end
 
 for p = 1:nfn
     if i_isnum(p)
-        ln = num2str(max(length(mtx{1,p}) + 2, 10));
+        ln = num2str(max(length(mtx{1,p}) + 2, 12));
         if i_islgc(p)
             fmt{p} = ['%' ln 'g'];
         elseif i_isint(p)
             fmt{p} = ['%' ln 'i'];
         else
-            fmt{p} = ['%' ln '.4f'];
+            fmt{p} = ['%' ln '.4g'];
         end
         fmt_header{p} = ['%' ln 's'];
     else

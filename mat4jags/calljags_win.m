@@ -93,7 +93,7 @@ for ch = 1:nchains
 %        fprintf(fid, 'coda pD, stem(PD)\n');
 %    end
     delete(stream)
-    set_permissions('+x', scriptfile{ch});
+    trinity_set_permissions('+x', scriptfile{ch});
 end
 
 options.scriptfile = scriptfile;
@@ -260,12 +260,12 @@ end
         if ~isempty(errstr)
             if doparallel
                 msg = sprintf(...
-                    'Error encountered in JAGS!\nJAGS output (all chains):\n%s\n', ...
-                    resultnow);
-            else
-                msg = sprintf(...
                     'Error encountered in JAGS (chain %d):\n%s\n', ...
                     iChain, resultnow);
+            else
+                msg = sprintf(...
+                    'Error encountered in JAGS!\nJAGS output (all chains):\n%s\n', ...
+                    resultnow);
             end
             if erroronerror
                 error_tag('trinity:calljags_win:error_checking:jagsError', ...
@@ -284,18 +284,18 @@ end
                 warning('trinity:calljags_win:error_checking:jagsWarning', ...
                     'JAGS produced a warning message:');
                 if doparallel
-                    fprintf('JAGS output (all chains):\n%s\n', resultnow);
-                else
                     fprintf('JAGS output (chain %d):\n%s\n', iChain, resultnow);
+                else
+                    fprintf('JAGS output (all chains):\n%s\n', resultnow);
                 end
             end
         end
         
         if verbosity >= 2
             if doparallel
-                fprintf( 'JAGS output (all chains):\n%s\n', resultnow);
-            else
                 fprintf( 'JAGS output (chain %d):\n%s\n', iChain, resultnow);
+            else
+                fprintf( 'JAGS output (all chains):\n%s\n', resultnow);
             end
         end
     end

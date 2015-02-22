@@ -11,7 +11,7 @@ function options = callstan_lnx(options)
 % CALLSTAN to ensure integrity of input
 
 % Move to working directory
-cleanupHandle = move_to_wdir(options);
+cleanupHandle = trinity_move_to_wdir(options);
 
 % Make scripts for each chain
 options = compile_stan_binary(options);
@@ -49,17 +49,15 @@ if ~remake && exist(executable, 'file')
     return
 end
 
-standir = trinity_preferences('stan_main_dir');
 libpath = trinity_preferences('libpath_lnx');
+standir = trinity_preferences('stan_main_dir');
 
 if verbosity > 0
     disp('Building Stan binary file...')
 end
 
 cmd = [ 'export LD_LIBRARY_PATH=' , libpath    , '; ', ...
-        'pushd '                  , standir    , '; ', ...
-        'make '                   , executable , '; ', ...
-        'popd'                                        ];
+        'make ', fullfile(xdir, xfile), ' -C ' standir '; '];
 
 if verbosity > 2
     disp(cmd)
@@ -154,7 +152,7 @@ delete(stream);
 system(sprintf('chmod +x %s', tfn));
 
 if doparallel
-    cmd = sprintf('export LD_LIBRARY_PATH=%s; cat %s | parallel --max-procs %i', ...
+    cmd = sprintf('export LD_LIBRARY_PATH=%s; cat %s | parallel --max-procs %i --gnu', ...
         libpath, tfn, maxcores);
 else
     cmd = sprintf('export LD_LIBRARY_PATH=%s; cat %s | xargs', ...
