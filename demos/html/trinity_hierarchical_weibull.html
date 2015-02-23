@@ -1,0 +1,329 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Fit a Weibull model using Trinity and JAGS</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-02-23"><meta name="DC.source" content="trinity_hierarchical_weibull.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Fit a Weibull model using Trinity and JAGS</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">JAGS convention (scale <img src="trinity_hierarchical_weibull_eq23351.png" alt="$\lambda$"> and shape <img src="trinity_hierarchical_weibull_eq86607.png" alt="$k$">):</a></li><li><a href="#3">MATLAB convention (scale a and shape b):</a></li><li><a href="#4">Preamble</a></li><li><a href="#5">Generate data and make structure</a></li><li><a href="#6">Define some priors</a></li><li><a href="#7">Plot the priors</a></li><li><a href="#10">Make all inputs that Trinity needs</a></li><li><a href="#14">Run Trinity with the CALLBAYES() function</a></li><li><a href="#15">Inspect the results</a></li><li><a href="#19">Make some figures</a></li></ul></div><p>It is important to note that the Weibull distribution follows a different parameter convention in MATLAB and JAGS, and we will have to transform parameters in order to compare.</p><h2>JAGS convention (scale <img src="trinity_hierarchical_weibull_eq23351.png" alt="$\lambda$"> and shape <img src="trinity_hierarchical_weibull_eq86607.png" alt="$k$">):<a name="2"></a></h2><p><img src="trinity_hierarchical_weibull_eq97804.png" alt="$v \lambda x^{v-1} \exp\left(-\lambda x^v \right)$"></p><h2>MATLAB convention (scale a and shape b):<a name="3"></a></h2><p><img src="trinity_hierarchical_weibull_eq67199.png" alt="$\frac{b}{a} \left( \frac{x}{a} \right)^{b-1} \exp\left(-(x/a)^b\right)$"></p><h2>Preamble<a name="4"></a></h2><p>Cleanup first</p><pre class="codeinput">clear <span class="string">all</span>
+p = @sprintf;
+</pre><h2>Generate data and make structure<a name="5"></a></h2><pre class="codeinput">rng(0)
+P = 20;  <span class="comment">% persons</span>
+C =  8;  <span class="comment">% conditions</span>
+I = 50;  <span class="comment">% trials per person per condition</span>
+
+cscale = [1 1 1 1 3 3 3 3];  <span class="comment">% scale parameters</span>
+cshape = [1 2 3 4 5 6 7 8];  <span class="comment">% shape parameters</span>
+
+allscale = repmat(ones(P, 1) * cscale + randn(P, C) / 10, [1, 1, I]);
+allshape = repmat(ones(P, 1) * cshape + randn(P, C) / 10, [1, 1, I]);
+
+condition = repmat(1:C, [P, 1, I]);     <span class="comment">% condition index</span>
+person    = repmat((1:P)', [1, C, I]);  <span class="comment">% person index;</span>
+
+y = wblrnd(allscale, allshape);  <span class="comment">% MATLAB uses (scale, shape)</span>
+                                 <span class="comment">% JAGS uses (v, l), v = shape, l = scale^-v</span>
+data = struct(<span class="string">'N'</span>, P * C * I, <span class="string">'C'</span>, C, <span class="string">'P'</span>, P, <span class="keyword">...</span>
+    <span class="string">'condition'</span>, condition(:), <span class="string">'person'</span>, person(:), <span class="string">'y'</span>, y(:));
+</pre><h2>Define some priors<a name="6"></a></h2><p>Use JAGS parameter conventions</p><pre class="codeinput">prscale = [2.0 0.5];  <span class="comment">% gamma distribution (shape, rate)</span>
+prshape = [2.0 0.5];  <span class="comment">% gamma distribution (shape, rate)</span>
+</pre><h2>Plot the priors<a name="7"></a></h2><p>Make sure to transform to MATLAB parameter conventions</p><p>Scale <img src="trinity_hierarchical_weibull_eq87919.png" alt="$\alpha$"></p><pre class="codeinput">figure(<span class="string">'windowstyle'</span>, <span class="string">'docked'</span>)
+xax = linspace( 0.0, 10.0, 200);
+plot(xax, gampdf(xax, prscale(1), prscale(2)^-1), <span class="string">'linewidth'</span>, 2)
+xlabel <span class="string">alpha</span>
+</pre><img vspace="5" hspace="5" src="trinity_hierarchical_weibull_01.png" alt=""> <p>Shape <img src="trinity_hierarchical_weibull_eq42727.png" alt="$\beta$"></p><pre class="codeinput">xax = linspace( 0.0, 10.0, 200);
+plot(xax, gampdf(xax, prshape(1), prshape(2)^-1), <span class="string">'linewidth'</span>, 2)
+xlabel <span class="string">beta</span>
+</pre><img vspace="5" hspace="5" src="trinity_hierarchical_weibull_02.png" alt=""> <h2>Make all inputs that Trinity needs<a name="10"></a></h2><p>Write the JAGS model into a variable (cell variable)</p><pre class="codeinput">model = {
+    <span class="string">'model {'</span>
+    <span class="string">'  # Priors on precision'</span>
+    <span class="string">'  precshape ~ dgamma(0.1, 0.1)'</span>
+    <span class="string">'  precscale ~ dgamma(0.1, 0.1)'</span>
+    <span class="string">''</span>
+    <span class="string">'  for (c in 1:C) { '</span>
+    <span class="string">'    # Priors on means'</span>
+  p(<span class="string">'    mushape[c] ~ dgamma(%g, %g)'</span>, prshape)
+  p(<span class="string">'    muscale[c] ~ dgamma(%g, %g)'</span>, prscale)
+  <span class="string">''</span>
+    <span class="string">'    # Random effects'</span>
+    <span class="string">'    for (p in 1:P) { '</span>
+    <span class="string">'      shape[c,p] ~ dnorm(mushape[c], precshape)'</span>
+    <span class="string">'      scale[c,p] ~ dnorm(muscale[c], precscale)'</span>
+    <span class="string">'    }'</span>
+    <span class="string">'  }'</span>
+    <span class="string">''</span>
+    <span class="string">'  # Likelihood'</span>
+    <span class="string">'  for (n in 1:N) {'</span>
+    <span class="string">'     y[n] ~ dweib(shape[condition[n],person[n]],'</span>
+    <span class="string">'                  scale[condition[n],person[n]])'</span>
+    <span class="string">'  }'</span>
+    <span class="string">'}'</span>
+    };
+</pre><p>List all the parameters of interest (cell variable)</p><pre class="codeinput">parameters = { <span class="keyword">...</span>
+    <span class="string">'scale'</span>, <span class="string">'shape'</span>, <span class="keyword">...</span>
+    <span class="string">'mushape'</span>, <span class="string">'muscale'</span>, <span class="keyword">...</span>
+    <span class="string">'precshape'</span>, <span class="string">'precscale'</span>};
+</pre><p>Write a function that generates a structure with one random value for each <i>random</i> parameter</p><pre class="codeinput">generator = @()struct(<span class="keyword">...</span>
+        <span class="string">'mushape'</span>, rand(1, C) + 0.1  , <span class="keyword">...</span>
+        <span class="string">'muscale'</span>, rand(1, C) + 0.1  );
+</pre><p>Tell Trinity which engine to use</p><pre class="codeinput">engine = <span class="string">'jags'</span>;
+</pre><h2>Run Trinity with the CALLBAYES() function<a name="14"></a></h2><pre class="codeinput">tic
+<span class="comment">% [stats, chains, diagnostics, info] = callbayes(engine, ...</span>
+<span class="comment">%     'model'         ,         model , ...</span>
+<span class="comment">%     'data'          ,          data , ...</span>
+<span class="comment">%     'nchains'       ,            4  , ...</span>
+<span class="comment">%     'verbosity'     ,            0  , ...</span>
+<span class="comment">%     'nsamples'      ,          1e3  , ...</span>
+<span class="comment">%     'nburnin'       ,          5e2  , ...</span>
+<span class="comment">%     'parallel'      ,      isunix() , ...</span>
+<span class="comment">%     'workingdir'    ,        'wdir' , ...</span>
+<span class="comment">%     'monitorparams' ,    parameters , ...</span>
+<span class="comment">%     'init'          ,     generator );</span>
+load <span class="string">/tmp/wbl</span>
+
+fprintf(<span class="string">'%s took %f seconds!\n'</span>, upper(engine), toc)
+</pre><pre class="codeoutput">JAGS took 0.085086 seconds!
+</pre><h2>Inspect the results<a name="15"></a></h2><p>First, inspect convergence</p><pre class="codeinput"><span class="keyword">if</span> any(codatable(chains, @gelmanrubin) &gt; 1.1)
+    grtable(chains, 1.1)
+    warning(<span class="string">'Some chains were not converged!'</span>)
+<span class="keyword">else</span>
+    disp(<span class="string">'Convergence looks good.'</span>)
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">Convergence looks good.
+</pre><p>Now check some basic descriptive statistics averaged over all chains</p><pre class="codeinput">disp(<span class="string">'Descriptive statistics for all chains:'</span>)
+</pre><pre class="codeoutput">Descriptive statistics for all chains:
+</pre><p>Boundary separation <img src="trinity_hierarchical_weibull_eq87919.png" alt="$\alpha$"></p><pre class="codeinput">codatable(chains, <span class="string">'^mushape'</span>)
+</pre><pre class="codeoutput">   Estimand        mean         std        plt0
+  mushape_1      0.9997     0.04408           0
+  mushape_2       1.998     0.06453           0
+  mushape_3       3.036     0.08023           0
+  mushape_4       3.824      0.1065           0
+  mushape_5       4.778      0.1186           0
+  mushape_6       5.498      0.1291           0
+  mushape_7       6.238      0.1527           0
+  mushape_8       7.376      0.1743           0
+</pre><p>A-priori bias <img src="trinity_hierarchical_weibull_eq42727.png" alt="$\beta$"></p><pre class="codeinput">codatable(chains, <span class="string">'^muscale'</span>)
+</pre><pre class="codeoutput">   Estimand        mean         std        plt0
+  muscale_1      0.9543     0.03819           0
+  muscale_2       1.096     0.04368           0
+  muscale_3      0.9436     0.03628           0
+  muscale_4      0.9787     0.03772           0
+  muscale_5      0.0254     0.01394           0
+  muscale_6     0.02372     0.01261           0
+  muscale_7     0.02232     0.01234           0
+  muscale_8      0.0225     0.01275           0
+</pre><h2>Make some figures<a name="19"></a></h2><p>Smoothed histograms figure('windowstyle', 'docked')</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Fit a Weibull model using Trinity and JAGS
+
+%%
+% It is important to note that the Weibull distribution follows a different
+% parameter convention in MATLAB and JAGS, and we will have to transform
+% parameters in order to compare.
+%% JAGS convention (scale $\lambda$ and shape $k$):
+% $v \lambda x^{v-1} \exp\left(-\lambda x^v \right)$
+%% MATLAB convention (scale a and shape b):
+% $\frac{b}{a} \left( \frac{x}{a} \right)^{b-1} \exp\left(-(x/a)^b\right)$
+
+%% Preamble
+% Cleanup first
+clear all
+p = @sprintf;
+
+
+%% Generate data and make structure
+rng(0)
+P = 20;  % persons
+C =  8;  % conditions
+I = 50;  % trials per person per condition
+
+cscale = [1 1 1 1 3 3 3 3];  % scale parameters
+cshape = [1 2 3 4 5 6 7 8];  % shape parameters
+
+allscale = repmat(ones(P, 1) * cscale + randn(P, C) / 10, [1, 1, I]);
+allshape = repmat(ones(P, 1) * cshape + randn(P, C) / 10, [1, 1, I]);
+
+condition = repmat(1:C, [P, 1, I]);     % condition index
+person    = repmat((1:P)', [1, C, I]);  % person index;
+
+y = wblrnd(allscale, allshape);  % MATLAB uses (scale, shape)
+                                 % JAGS uses (v, l), v = shape, l = scale^-v
+data = struct('N', P * C * I, 'C', C, 'P', P, ...
+    'condition', condition(:), 'person', person(:), 'y', y(:));
+
+
+%% Define some priors
+% Use JAGS parameter conventions
+prscale = [2.0 0.5];  % gamma distribution (shape, rate)
+prshape = [2.0 0.5];  % gamma distribution (shape, rate)
+
+
+%% Plot the priors
+% Make sure to transform to MATLAB parameter conventions
+%%
+% Scale $\alpha$
+figure('windowstyle', 'docked')
+xax = linspace( 0.0, 10.0, 200);
+plot(xax, gampdf(xax, prscale(1), prscale(2)^-1), 'linewidth', 2)
+xlabel alpha
+%%
+% Shape $\beta$
+xax = linspace( 0.0, 10.0, 200);
+plot(xax, gampdf(xax, prshape(1), prshape(2)^-1), 'linewidth', 2)
+xlabel beta
+
+
+%% Make all inputs that Trinity needs
+% Write the JAGS model into a variable (cell variable)
+model = {
+    'model {'
+    '  # Priors on precision'
+    '  precshape ~ dgamma(0.1, 0.1)'
+    '  precscale ~ dgamma(0.1, 0.1)'
+    ''
+    '  for (c in 1:C) { '
+    '    # Priors on means'
+  p('    mushape[c] ~ dgamma(%g, %g)', prshape)
+  p('    muscale[c] ~ dgamma(%g, %g)', prscale)
+  ''
+    '    # Random effects'
+    '    for (p in 1:P) { '
+    '      shape[c,p] ~ dnorm(mushape[c], precshape)'
+    '      scale[c,p] ~ dnorm(muscale[c], precscale)'
+    '    }'
+    '  }'
+    ''
+    '  # Likelihood'
+    '  for (n in 1:N) {'
+    '     y[n] ~ dweib(shape[condition[n],person[n]],'
+    '                  scale[condition[n],person[n]])'
+    '  }'
+    '}'
+    };
+
+%% 
+% List all the parameters of interest (cell variable)
+parameters = { ...
+    'scale', 'shape', ...
+    'mushape', 'muscale', ...
+    'precshape', 'precscale'};
+
+%% 
+% Write a function that generates a structure with one random value for
+% each _random_ parameter
+generator = @()struct(...
+        'mushape', rand(1, C) + 0.1  , ...
+        'muscale', rand(1, C) + 0.1  );
+
+%%    
+% Tell Trinity which engine to use
+engine = 'jags';
+
+
+%% Run Trinity with the CALLBAYES() function
+tic
+% [stats, chains, diagnostics, info] = callbayes(engine, ...
+%     'model'         ,         model , ...
+%     'data'          ,          data , ...
+%     'nchains'       ,            4  , ...
+%     'verbosity'     ,            0  , ...
+%     'nsamples'      ,          1e3  , ...
+%     'nburnin'       ,          5e2  , ...
+%     'parallel'      ,      isunix() , ...
+%     'workingdir'    ,        'wdir' , ...
+%     'monitorparams' ,    parameters , ...
+%     'init'          ,     generator );
+load /tmp/wbl
+
+fprintf('%s took %f seconds!\n', upper(engine), toc)
+
+
+
+%% Inspect the results
+% First, inspect convergence
+if any(codatable(chains, @gelmanrubin) > 1.1)
+    grtable(chains, 1.1)
+    warning('Some chains were not converged!')
+else
+    disp('Convergence looks good.')
+end
+
+%%
+% Now check some basic descriptive statistics averaged over all chains
+disp('Descriptive statistics for all chains:')
+
+%%
+% Boundary separation $\alpha$
+codatable(chains, '^mushape')
+
+%%
+% A-priori bias $\beta$
+codatable(chains, '^muscale')
+
+
+%% Make some figures
+% Smoothed histograms
+% figure('windowstyle', 'docked')
+
+##### SOURCE END #####
+--></body></html>

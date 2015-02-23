@@ -58,9 +58,7 @@ model = {
   p('    d[i] ~ dnorm(%g, %g)', delta)
     '  }'
     ''
-    '  for (n in 1:N) {'
-    '     y[n] ~ dwiener(a[c[n]], t[c[n]], b[c[n]], d[c[n]])'
-    '  }'
+    % to be completed
     '}'
     };
 

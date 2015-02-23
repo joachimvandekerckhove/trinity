@@ -4,13 +4,13 @@ function [str, out] = structural(coda,cmd)
 %  two input variables: a coda structure, and a string containing a valid
 %  MATLAB command to form a structural parameter.
 %
-%    [STR OUT] = STRUCTURAL(CODA,CMD), where CODA is an array of coda
+%    [STR, OUT] = STRUCTURAL(CODA, CMD), where CODA is an array of coda
 %    structures and CMD is a valid MATLAB command, returns STR, an array of
 %    extended coda structures and OUT, a cell array with output from CMD.
 %
 %  Example:
-%    >> coda = [struct('a',4,'b',3) struct('a',1.5,'b',2)];
-%    >> [str out] = structural(coda,'c = a*b');
+%    >> coda = [struct('a', 4, 'b', 3) struct('a', 1.5, 'b', 2)];
+%    >> [str, out] = structural(coda, 'c = a.*b');
 %    >> str(1)
 %    ans = 
 %        a: 4

@@ -48,7 +48,7 @@ cov = {'US'            'active'      0.7500
 
 [x, labels_x] = replace_by_index(cov(:,1));  x = x - 1;
 [y, labels_y] = replace_by_index(cov(:,2));  y = y - 1;
-z = cov(:,3);
+z = [cov{:,3}];
 
 disp 'X Labels are:', disp(labels_x')
 disp 'Y Labels are:', disp(labels_y')
@@ -58,7 +58,7 @@ data = struct('K', numel(d), 'd', d, 's', s);
 %% Set priors
 % n = 49;
 % priors = linspace(.1/(n+1), 2, n);
-theta_sd = 1
+theta_sd = 1;
 
 %% Make all inputs that Trinity needs
 % Write the JAGS model into a variable (cell variable)
@@ -94,25 +94,6 @@ switch type
             };
         parameters = {'theta', 'sigma', 'b0'};
     case {3 'regression_x'}
-        model = {
-            'model {'
-            '   for (i in 1:K) {'
-            '      precision[i] <- pow(s[i], -2);'
-            '      d[i] ~ dnorm(b0[i], precision[i])'
-            '      b0[i] <- theta + gamma * x[i] + u0[i]'
-            '      u0[i] ~ dnorm(0, tau)'
-            '   }'
-            ''
-            '   # Priors'
-          p('   theta ~ dnorm(0, %g);', theta_sd.^-2)
-          p('   gamma ~ dnorm(0, %g);', theta_sd.^-2)
-            '   tau ~ dgamma(.001, .001);'
-            '   sigma <- pow(tau, -0.5) ;'
-            '}'
-            };
-        data.x = x;
-        parameters = {'theta', 'sigma', 'b0', 'gamma'};
-    case {6 'regression_y'}
         model = {
             'model {'
             '   for (i in 1:K) {'
@@ -175,6 +156,25 @@ switch type
         data.y = y;
         data.z = z;
         parameters = {'theta', 'sigma', 'b0', 'gamma', 'delta', 'lambda'};
+    case {6 'regression_y'}
+        model = {
+            'model {'
+            '   for (i in 1:K) {'
+            '      precision[i] <- pow(s[i], -2);'
+            '      d[i] ~ dnorm(b0[i], precision[i])'
+            '      b0[i] <- theta + gamma * x[i] + u0[i]'
+            '      u0[i] ~ dnorm(0, tau)'
+            '   }'
+            ''
+            '   # Priors'
+          p('   theta ~ dnorm(0, %g);', theta_sd.^-2)
+          p('   gamma ~ dnorm(0, %g);', theta_sd.^-2)
+            '   tau ~ dgamma(.001, .001);'
+            '   sigma <- pow(tau, -0.5) ;'
+            '}'
+            };
+        data.x = x;
+        parameters = {'theta', 'sigma', 'b0', 'gamma'};
 end
 
 
@@ -223,4 +223,4 @@ line(0, BHA, 'color', 'r', 'marker', 'o', 'linewidth', 4)
 line(0, BH0, 'color', 'b', 'marker', 'o', 'linewidth', 4)
 fprintf('BF in favor of the null: %.2f.\n', B)
 
-Bs(p_ind) = B;
+% Bs(p_ind) = B;

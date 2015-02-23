@@ -4,7 +4,12 @@
 % unequal standard deviations, and to estimate the difference between the
 % means as well as between the standard deviations. Most of the code is
 % given, only the JAGS code (in the _model_ variable) needs to be
-% completed.
+% completed, together with the list of parameters to be traced (the
+% _parameters- variable) and the generator function (the _generator_
+% variable).
+% The parameters of the model should be the two-element vector mu[] (for
+% the two means), the two-element vector si[] (for the two standard
+% deviations), and the scalar d (for the difference in means).
 
 %% Preamble
 % Cleanup first
@@ -24,31 +29,19 @@ x2 = randn(n2, 1) * s2 + m2;
 
 %% Now, make all inputs that Trinity needs
 % Write the JAGS model into a variable (cell variable)
-model = {  % instructur hides this line
-    'model { '
-    '    for (c in 1:2) {'
-    '        mu[c] ~ dnorm(0, 0.1)      # prior for mu'
-    '        tau[c] ~ dgamma(0.01, 0.01) # prior for si'
-    '        si[c] <- pow(tau[c], -0.5)  # tau = si^(-2)'
-    '    }'
-    '    for (n in 1:n1) {'
-    '        x1[n] ~ dnorm(mu[1], tau[1]) # likelihood for x1'
-    '    }'
-    '    for (n in 1:n2) {'
-    '        x2[n] ~ dnorm(mu[2], tau[2]) # likelihood for x2'
-    '    }'
-    '    d <- mu[2] - mu[1] # difference scores d'
-    '}'
+model = {
+    % to be completed
     };
 
 % List all the parameters of interest (cell variable)
-parameters = {'mu', 'si', 'd'};
+parameters = {
+    % to be completed
+    };
 
 % Write a function that generates a structure with one random value for
 % each _random_ parameter in a field
-generator = @()struct(...
-    'mu' , randn(1,2) , ...
-    'tau', rand(1,2)  );
+generator = @()struct(... % to be completed
+    );
 
 % Make a structure with the data (note that the name of the field needs to
 % match the name of the variable in the JAGS model)
@@ -63,7 +56,6 @@ tic
 [stats, chains, diagnostics, info] = callbayes(engine, ...
     'model'         , model         , ...
     'data'          , data          , ...
-    'parallel'      , isunix&~ismac , ...
     'workingdir'    , 'wdir'        , ...
     'monitorparams' , parameters    , ...
     'init'          , generator     );

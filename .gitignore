@@ -1,3 +1,6 @@
-examples/wdir
+wdir/
+demos/wdir/
+exercises/wdir/
 *~
 *.asv
+exercises/trinity_solutions.m

@@ -16,27 +16,9 @@ data = struct('x', x, 'I', I, 'P', P);
 %% First, make all inputs that Trinity needs
 % Write the JAGS model into a variable (cell variable)
 model = {
-       'model {'
-        '    meanBeta  ~ dnorm(0, 0.1)'
-        '    precBeta  ~ dgamma(0.1, 0.1)'
-        '    precTheta ~ dgamma(0.1, 0.1)'
-        ''
-        '    for (p in 1:P) {'
-        '        theta[p] ~ dnorm(0, precTheta)'
-        '    }'
-        ''
-        '    for (i in 1:I) {'
-        '        beta[i] ~ dnorm(meanBeta, precBeta)'
-        '    }'
-        ''
-        '    for (p in 1:P) {'
-        '        for (i in 1:I) {'
-        '            pi[p,i] <- ilogit(theta[p] - beta[i])'
-        '            x[p,i] ~ dbern(pi[p,i])'
-        '        }'
-        '    }'
-        '}'
+    % to be completed
     };
+
 
 % List all the parameters of interest (cell variable)
 parameters = {'meanBeta', 'precBeta', 'precTheta', 'theta', 'beta'};

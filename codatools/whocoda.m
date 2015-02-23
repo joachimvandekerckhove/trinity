@@ -1,4 +1,10 @@
 function whocoda(chains)
+% WHOCODA    List nodes in a coda structure
+%
+%    WHOCODA(CHAINS) shows the nodes available in a CODA stucture, with size
+%    and type information.
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 fns = fieldnames(chains);
 
