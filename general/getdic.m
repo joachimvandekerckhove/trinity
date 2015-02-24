@@ -1,4 +1,4 @@
-function varargout = getdic(chains)
+function [dic, ha, qt] = getdic(chains)
 % GETDIC  Compute Plummer's DIC from chains
 %  GETDIC computes an estimate of the Deviance Information Criterion using
 %  only samples from the Monte Carlo chains. Plummer's approximation to
@@ -29,7 +29,7 @@ dicfn = @(y)codatable(y, 'deviance', @(x)mean(x)+0.5*var(x));
 % If function flag given, return handle and exit
 if ischar(chains) 
     if strcmp(chains, 'function')
-        varargout{1} = dicfn;
+        dic = dicfn;
         return
     else
         error_tag('trinity:getdic:unknownflag', ...
@@ -53,7 +53,7 @@ end
 chains = struct('deviance', chains.deviance);
 
 % Compute DIC over all samples
-varargout{1} = dicfn(chains);
+dic = dicfn(chains);
 
 % Compute robustness DICs
 if nargout > 1
@@ -64,7 +64,6 @@ if nargout > 1
     ha = [ ...
         dicfn(structfun(@(x)x(h1,:), chains, 'uni', 0))
         dicfn(structfun(@(x)x(h2,:), chains, 'uni', 0)) ];
-    varargout{2} = ha;  % Add halves to output list
     if nargout > 2
         % Define quarters and compute DIC
         q1 = 1:(nsamples/4);
@@ -76,6 +75,5 @@ if nargout > 1
             dicfn(structfun(@(x)x(q2,:), chains, 'uni', 0))
             dicfn(structfun(@(x)x(q3,:), chains, 'uni', 0))
             dicfn(structfun(@(x)x(q4,:), chains, 'uni', 0)) ]';
-        varargout{3} = qt;  % Add quarters to output list
     end
 end

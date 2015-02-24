@@ -184,19 +184,20 @@ nchains        = options.nchains        ;
 doparallel     = options.parallel       ;
 saveoutput     = options.saveoutput     ;
 result         = options.result         ;
+outputname     = options.outputname     ;
 
 if ~saveoutput
     return
 end
 
 if doparallel
-    filenm = sprintf('jags_output.txt');
+    filenm = sprintf('jags_output_%s.txt', outputname);
     [fid, stream] = robust_fopen(filenm, 'wt');
     fprintf(fid, '%s', result);
     delete(stream);
 else
     for iChain = 1:nchains
-        filenm = sprintf('jags_output_%d.txt', iChain);
+        filenm = sprintf('jags_output_%s_%d.txt', outputname, iChain);
         resultnow = result{iChain};
         [fid, stream] = robust_fopen(filenm, 'wt');
         fprintf(fid, '%s', resultnow);

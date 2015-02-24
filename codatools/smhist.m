@@ -58,7 +58,14 @@ function [h, y, x] = smhist_sub(v, number, varargin)
 
 % First get smoothed densities for all chains
 v = v(:);
-if all(v > 0) && all(v < 1)
+if all(v==fix(v))
+    % parameter is discrete
+    t = tabulate(v);
+    x = t(:,1);
+    y = t(:,3);
+    h = bar(x, y, varargin{:});
+    return
+elseif all(v > 0) && all(v < 1)
     % assume parameter is bounded between 0 and 1
     [y, x] = ksdensity(v, 'support', [0 1]);
 elseif all(v > 0)

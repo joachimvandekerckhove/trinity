@@ -1,4 +1,4 @@
-function stats = trinity_combine_subposteriors(chains, method, varargin)
+function stats = combine_subposteriors(chains, method, varargin)
 % TRINITY_COMBINE_SUBPOSTERIORS  Combines subposteriors per Neiswanger, Wang, and Xing
 %    STATS = trinity_combine_subposteriors(CHAINS, METHOD), where CHAINS
 %    is a struct array with chains that all result from runs of an

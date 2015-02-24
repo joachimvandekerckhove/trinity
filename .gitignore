@@ -1,6 +1,11 @@
+dev/
 wdir/
 demos/wdir/
 exercises/wdir/
+exercises/html/
 *~
 *.asv
+exercises/trinity_publish_all.m
+exercises/trinity_rasch_ppc.m
 exercises/trinity_solutions.m
+exercises/trinity_ex_*_solved.m
