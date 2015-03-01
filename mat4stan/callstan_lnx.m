@@ -269,9 +269,13 @@ error_parser(result);
                 warning('trinity:callstan_lnx:error_checking:stanwarning', ...
                     'Stan produced a warning message:');
                 if doparallel
-                    fprintf('Stan output (all chains):\n%s\n', resultnow);
+                    if verbosity > 2
+                        fprintf('Stan output (all chains):\n%s\n', resultnow);
+                    end
                 else
-                    fprintf('Stan output (chain %d):\n%s\n', iChain, resultnow);
+                    if verbosity > 2
+                        fprintf('Stan output (chain %d):\n%s\n', iChain, resultnow);
+                    end
                 end
             end
         end
