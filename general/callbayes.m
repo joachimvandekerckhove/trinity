@@ -15,6 +15,7 @@ function [stats, chains, diagnostics, info] = callbayes(engine, varargin)
 %        'datafilename'   ,       []  
 %        'initfilename'   ,       []  
 %        'scriptfilename' ,       []  
+%        'logfilename'    ,       []  
 %        'engine'         ,    'jags' 
 %        'nchains'        ,        4  
 %        'nburnin'        ,     1000  

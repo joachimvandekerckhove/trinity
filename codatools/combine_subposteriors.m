@@ -90,7 +90,7 @@ end
 %% --------------------------------------------------------------------- %%
 function samples = collapse_chains(chains)
 
-chains = arrayfun(@(y)structfun(@(x)x(:), y, 'uni', 0), chains);
+chains = arrayfun(@(y)structfun(@(x)x(:), y, 'uni', 0), chains(:));
 chaincell = struct2cell(chains);
 
 samples = [];

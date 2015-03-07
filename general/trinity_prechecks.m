@@ -19,6 +19,9 @@ options = check_data(options);
 % Check that init files exist
 options = check_inits(options);
 
+% Check that log files exist
+options = check_log(options);
+
 % Repopulate working directory
 options = populate_wdir(options);
 
@@ -107,6 +110,8 @@ init         = options.init;
 nchains      = options.nchains;
 initfilename = options.initfilename;
 
+initfilename_upd = cell(1, nchains);
+
 if isa(init, 'function_handle')
     generating_function = init;
     init = cell(1, nchains);
@@ -122,18 +127,47 @@ for c = 1:nchains
                 error_tag('trinity:check_inits:trinity_prechecks:conflictinginputinit', ...
                     'If the initial values is defined as a file name, "initfilename" must be empty.');
             end
-            initfilename{c} = init{c};
+            initfilename_upd{c} = init{c};
         case 'struct'  % ... or we need to write the inits to a temp file
-            initfilename{c} = trinity_untitled(options, 'init', c);
-            str2data(engine, initfilename{c}, init{c})
+            initfilename_upd{c} = trinity_untitled(options, 'init', c);
+            str2data(engine, initfilename_upd{c}, init{c})
     end
     
-    assertunlocked(initfilename{c}, 'file');
+    assertunlocked(initfilename_upd{c}, 'file');
     
-    trinity_set_permissions('+x', initfilename{c});
+    trinity_set_permissions('+x', initfilename_upd{c});
 end
 
-options.init = cellfun(@get_full_path, initfilename, 'uni', 0);
+options.init = cellfun(@get_full_path, initfilename_upd, 'uni', 0);
+
+end
+
+
+%% --------------------------------------------------------------------- %%
+function options = check_log(options)
+
+nchains      = options.nchains;
+logfilename  = options.logfilename;
+
+logfilename_upd = cell(1, nchains);
+
+for c = 1:nchains
+    switch class(logfilename)
+        case 'double'
+            if isempty(logfilename)
+                logfilename_upd{c} = trinity_untitled(options, 'log', c);
+            else
+                error_tag('trinity:check_log:trinity_prechecks:invalidinput', ...
+                    'Invalid log file name.');
+            end
+        case 'char'    % it can be a root...
+            logfilename_upd{c} = sprintf('%s_%i.log', logfilename, c);
+        case 'cell'  % ... or all log file names were given
+            logfilename_upd{c} = trinity_untitled(options, 'log', c);
+    end
+end
+
+options.logfilename = cellfun(@get_full_path, logfilename_upd, 'uni', 0);
 
 end
 

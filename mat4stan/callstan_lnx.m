@@ -114,14 +114,14 @@ end
 
 % Make a temporary file name
 [~, tfn] = fileparts(tempname);
-tfn = fullfile(workingdir, tfn);
+tfn = fullfile(workingdir, ['.', tfn]);
 
 [fid, stream] = robust_fopen(tfn, 'w');
 
 coda_files = cell(1, nchains);
 
 for ch = 1:nchains
-    coda_files{ch} = sprintf('%s%i.csv', outputname, ch);
+    coda_files{ch} = sprintf('%s_%i.csv', outputname, ch);
     fprintf(fid, '%s'                   , executable);
     fprintf(fid, ' data file=%s'        , datafile);
     fprintf(fid, ' id=%i'               , ch);
@@ -152,10 +152,10 @@ delete(stream);
 system(sprintf('chmod +x %s', tfn));
 
 if doparallel
-    cmd = sprintf('export LD_LIBRARY_PATH=%s; cat %s | parallel --max-procs %i --gnu', ...
+    cmd = sprintf('export LD_LIBRARY_PATH=%s; parallel -a %s --max-procs %i --gnu', ...
         libpath, tfn, maxcores);
 else
-    cmd = sprintf('export LD_LIBRARY_PATH=%s; cat %s | xargs', ...
+    cmd = sprintf('export LD_LIBRARY_PATH=%s; sh %s', ...
         libpath, tfn);
 end
 
@@ -199,30 +199,33 @@ nchains        = options.nchains        ;
 doparallel     = options.parallel       ;
 saveoutput     = options.saveoutput     ;
 result         = options.result         ;
+logfilename    = options.logfilename    ;
 
 if ~saveoutput
     return
 end
 
 if doparallel
-    filenm = sprintf('stan_output.txt');
-    [fid, message] = fopen(filenm, 'wt');
-    if fid == -1
-        error_tag('trinity:callstan_lnx:save_stan_output:fileOpenErrorPar', ...
-            message);
+    for iChain = 1:nchains
+        [fid, message] = fopen(logfilename{iChain}, 'wt');
+        if fid == -1
+            error_tag('trinity:callstan_lnx:save_stan_output:fileOpenErrorPar', ...
+                message);
+        end
+        fprintf(fid, '%s', result);
+        fclose(fid);
     end
-    fprintf(fid, '%s', result);
-    fclose(fid);
 else
     for iChain = 1:nchains
-        filenm = sprintf('stan_output_%d.txt', iChain);
-        [fid, message] = fopen(filenm, 'wt');
+        [fid, message] = fopen(logfilename{iChain}, 'wt');
         if fid == -1
             error_tag('trinity:callstan_lnx:save_stan_output:fileOpenError', ...
                 message);
         end
-        resultnow = result{iChain};
-        fprintf(fid, '%s', resultnow);
+%         keyboard
+%         resultnow = result{iChain};
+%         fprintf(fid, '%s', resultnow);
+        fprintf(fid, '%s', result);
         fclose(fid);
     end
 end
