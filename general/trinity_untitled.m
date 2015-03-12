@@ -60,7 +60,7 @@ switch style
             name = datafilename;
         else
             ctr = 0;
-            name = script('untitled.%s', ext.data);
+            name = sprintf('untitled.%s', ext.data);
             while exist(name, 'file')
                 ctr = ctr + 1;
                 name = sprintf('untitled%i.%s', ctr, ext.data);
