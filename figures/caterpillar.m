@@ -22,6 +22,9 @@ else
     target = varargin{1};
 end
 
+colorOrder = get(0, 'DefaultAxesColorOrder');
+set(0, 'DefaultAxesColorOrder', trinity_preferences('colororder'))
+
 if isnumeric(coda)  % If user gave chains instead of coda structure
     caterpillar_sub(coda, 1, varargin{:});
 else  % Select fields by regular expression
@@ -53,6 +56,7 @@ end
 
 if nargout,  varargout = {h};  end
 figure(gcf)  % focus figure
+set(0, 'DefaultAxesColorOrder', colorOrder);
 
 end
 
@@ -61,20 +65,22 @@ function caterpillar_sub(x, number, varargin)
 
 x = x(:);
 
+colors = get(0, 'DefaultAxesColorOrder');
+
 % Draw short line
-plot(prctile(x, [ 2.5 97.5]), [1 1] * number, ...
+line(prctile(x, [ 2.5 97.5]), [1 1] * number, ...
     'color', 'k', 'LineWidth', 3, varargin{:}, ...
     'Tag', 'caterpillar:shortlines')
 
 % Draw long line
 line(prctile(x, [ 0.5 99.5]), [1 1] * number, ...
-    'color', 'r', 'LineWidth', 1, varargin{:}, ...
+    'color', colors(1,:), 'LineWidth', 1, varargin{:}, ...
     'linestyle', '-', ...
     'Tag', 'caterpillar:longlines')
 
 % Mark mean
 line(mean(x), number, ...
-    'color', 'r', 'LineWidth', 2, ...
+    'color',  colors(1,:), 'LineWidth', 2, ...
     'marker', 'x', 'markersize', 8, ...
     varargin{:}, ...
     'Tag', 'caterpillar:mean');

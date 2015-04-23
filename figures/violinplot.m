@@ -22,6 +22,9 @@ else
     target = varargin{1};
 end
 
+colorOrder = get(0, 'DefaultAxesColorOrder');
+set(0, 'DefaultAxesColorOrder', trinity_preferences('colororder'))
+
 if isnumeric(coda)  % If user gave chains instead of coda structure
     violinplot_sub(coda, 1, varargin{:});
 else  % Select fields by regular expression
@@ -29,7 +32,7 @@ else  % Select fields by regular expression
     [selection, n_sel] = select_fields(coda, target);
     if ~n_sel, return, end
     
-    hs = ishold();  % get hold status
+%     hs = ishold();  % get hold status
 
     % Then loop over selected fields
     for parameter = 1:n_sel
@@ -42,11 +45,12 @@ else  % Select fields by regular expression
     set(h, 'XTick', 1:n_sel, 'XTickLabel', selection)
     ylabel value
 
-    if ~hs, hold off, end  % reset hold status
+%     if ~hs, hold off, end  % reset hold status
 end
 
 if nargout,  varargout = {h};  end
 figure(gcf)  % focus figure
+set(0, 'DefaultAxesColorOrder', colorOrder);
 
 end
 
@@ -62,22 +66,27 @@ py(py<.0005) = NaN;
 py_a_r =  .25 * py ./ ma_y + number;
 py_a_l = -.25 * py ./ ma_y + number;
 
-% Draw vertical center line
-plot([1 1] * number, ylim, ...
-    'color', 'k', 'linestyle', ':', 'Tag', 'violinplot:lines')
+colors = get(0, 'DefaultAxesColorOrder');
 
 % Draw distribution
-line(py_a_r, px, 'color', 'b', 'LineWidth', 1.5, varargin{:}, ...
+line(py_a_r, px, 'color', colors(1,:), 'LineWidth', 2, varargin{:}, ...
     'marker', 'none', 'Tag', 'violinplot:distribution');
-line(py_a_l, px, 'color', 'b', 'LineWidth', 1.5, varargin{:}, ...
+line(py_a_l, px, 'color', colors(1,:), 'LineWidth', 2, varargin{:}, ...
     'marker', 'none', 'Tag', 'violinplot:distribution');
 
+% Draw vertical center line
+line([1 1] * number, ylim, ...
+    'color', 'k', 'linestyle', ':', 'Tag', 'violinplot:lines')
+
 % Mark mean
-line(number, mean(x), 'marker', '.', 'LineWidth', 1.5, ...
-    varargin{:}, 'color', 'r', 'Tag', 'violinplot:mean');
+line(number, mean(x), 'marker', 'o', ...
+    varargin{:}, 'LineWidth', 2, ...
+    'color', colors(2,:), 'Tag', 'violinplot:mean');
 
 % Line for the mode
 line([py_a_l(idx) py_a_r(idx)], [1 1] * px(idx), ...
-    varargin{:}, 'color', 'r', 'marker', 'none', 'Tag', 'violinplot:mode');
+    varargin{:}, 'color', colors(2,:), ...
+    'LineWidth', 2, 'linestyle', '--', ...
+    'marker', 'none', 'Tag', 'violinplot:mode');
 
 end

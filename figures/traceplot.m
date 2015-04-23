@@ -17,9 +17,13 @@ if nargin < 2
         error_tag('trinity:traceplot:badInput', ...
             'Insufficient input to traceplot.')
     end
-    varargin{1} = '.';
+    target = '.';
+else
+    target = varargin{1};
 end
-target = varargin{1};
+
+colorOrder = get(0, 'DefaultAxesColorOrder');
+set(0, 'DefaultAxesColorOrder', trinity_preferences('colororder'))
 
 if isnumeric(coda) % If user gave chains instead of coda structure
     figure()
@@ -40,6 +44,7 @@ end
 
 if nargout,  varargout = {h};  end
 figure(gcf)  % focus figure
+set(0, 'DefaultAxesColorOrder', colorOrder);
 
 end
 

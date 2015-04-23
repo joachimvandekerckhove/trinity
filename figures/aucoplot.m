@@ -18,9 +18,13 @@ if nargin < 2
         error_tag('trinity:aucoplot:badInput', ...
             'Insufficient input to aucoplot.')
     end
-    varargin{1} = '.';
+    target = '.';
+else
+    target = varargin{1};
 end
-target = varargin{1};
+
+colorOrder = get(0, 'DefaultAxesColorOrder');
+set(0, 'DefaultAxesColorOrder', trinity_preferences('colororder'))
 
 maxlag = 40; % number of lags to display
 
@@ -42,6 +46,7 @@ end
 
 if nargout,  varargout = {h};  end
 figure(gcf)  % focus figure
+set(0, 'DefaultAxesColorOrder', colorOrder);
 
 end
 

@@ -23,6 +23,9 @@ else
     target = varargin{1};
 end
 
+colorOrder = get(0, 'DefaultAxesColorOrder');
+set(0, 'DefaultAxesColorOrder', trinity_preferences('colororder'))
+
 if isnumeric(coda)  % If user gave chains instead of coda structure
     [h, y, x] = smhist_sub(coda, 1, varargin{:});
 else  % Select fields by regular expression
@@ -50,6 +53,7 @@ end
 
 if nargout,  varargout = {h, y, x};  end
 figure(gcf)  % focus figure
+set(0, 'DefaultAxesColorOrder', colorOrder);
 
 end
 
