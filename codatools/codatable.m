@@ -5,6 +5,9 @@ function varargout = codatable(coda, varargin)
 %   is a list of function handles, produces MTX, a matrix or cell matrix of
 %   the result of each function applies to each parameter matched by
 %   TARGET.
+%
+%   The default statistics are the distribution's mean, its standard
+%   deviation, and its mass below zero.
 % 
 %  See also: GRTABLE, CSTATS, GETMATRIXFROMCODA
 % 

@@ -13,6 +13,7 @@ findIdxoor = strfind(result, 'Index out of range for');
 findUnexpe = strfind(result, 'unexpected ENDDATA, expecting ENDCMD');
 findNoncon = strfind(result, 'Non-conforming parameters in function');
 nojags     = strfind(result, 'jags: command not found');
+killed     = strfind(result, '^C');
 
 if ~isempty(nojags)
     errorCase = 0;
@@ -30,6 +31,8 @@ elseif ~isempty(findIncons)
     errorCase = 6;
 elseif ~isempty(findNoncon)
     errorCase = 7;
+elseif ~isempty(killed)
+    errorCase = 8;
 else
     feedbackStr = sprintf(['%%\n' ...
                            '%% No JAGS syntax errors found.\n' ...
@@ -88,6 +91,10 @@ switch errorCase
         
     case 7
         feedbackStr = sprintf('%%\n%% Do matrix sizes match for multiplication?\n%%');
+        return
+        
+    case 8
+        feedbackStr = sprintf('%%\n%% Looks like you killed the process.\n%%  (+o+)\n%%');
         return
         
 end
