@@ -146,6 +146,7 @@ if doparallel
     else
         %#ok<*REMFF1>
         if matlabpool('size') ~= workers
+            n = 4;
             fprintf('Opening matlabpool with %i workers.\n', workers)
             matlabpool close force
             sched = findResource('scheduler', 'type', 'local');

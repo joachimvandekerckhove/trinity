@@ -69,10 +69,17 @@ if all(v==fix(v))
     y = t(:,3);
     h = bar(x, y, varargin{:});
     return
-elseif all(v > 0) && all(v < 1)
-    % assume parameter is bounded between 0 and 1
-    [y, x] = ksdensity(v, 'support', [0 1]);
-elseif all(v > 0)
+elseif all(v >= 0) && all(v <= 1)
+    if all(v > 0) && all(v < 1)
+        % assume parameter is bounded between 0 and 1
+        [y, x] = ksdensity(v, 'support', [0 1]);
+    else
+        v(v==0) = eps;
+        v(v==1) = 1-eps;
+        % still assume parameter is bounded between 0 and 1
+        [y, x] = ksdensity(v, 'support', [0 1]);
+    end
+elseif all(v >= 0)
     % assume parameter is bounded to be positive
     [y, x] = ksdensity(v, 'support', 'positive');
 else
