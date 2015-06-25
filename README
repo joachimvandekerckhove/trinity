@@ -1,1 +1,17 @@
 Trinity is a MATLAB interface for WinBUGS, JAGS, and Stan, or a subset thereof.
+
+To install, simply download the file structure and put them somewhere in the MATLAB path.
+To use, start with the command:
+>> trinity install
+
+To test the installation, try:
+>> trinity_test
+
+To get started, try:
+>> help callbayes
+>> help trinity
+>> trinity new
+
+Trinity is still under development. Most if not all functions are documented with help
+information, but we currently do not support the software by email or similar. If you
+run into problems and solve them, feel free to share your solution with the authors!
