@@ -12,8 +12,13 @@ end
 
 switch cmd
     case 'install'
+        % You can place trinity_install() in a startup script for silent
+        % install at MATLAB boot
         trinity_install()
+        disp 'Trinity install complete.'
     case 'new'
+        % You can use the functional form "trinity_new <name>" to avoid the
+        % interactive function
         name = '';
         while ~isvarname(name)
             name = input('Give your new project a name: ', 's');
