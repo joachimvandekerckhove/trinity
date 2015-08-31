@@ -48,6 +48,12 @@ switch variable
         % Where are the model files (relative to Stan)?
         a = ['src' filesep 'models' filesep 'cognitive' filesep];
         
+        
+%% ----- BUGS ---------------------------------------------------------- %%
+    case 'bugs_main_dir'
+        % Where is WinBUGS (full, absolute paths only)?
+        a = 'C:\Users\joachim\Documents\BBX\';
+                
 
 %% ----- All ----------------------------------------------------------- %%
     case 'colororder'

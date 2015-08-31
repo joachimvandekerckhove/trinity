@@ -11,11 +11,16 @@ initfilename    = options.initfilename;
 scriptfilename  = options.scriptfilename;
 logfilename     = options.logfilename;
 
-ext.model  = engine;
 ext.script = 'script';
 ext.log    = 'log';
 ext.data   = 'data';
 ext.init   = 'init';
+switch engine
+    case 'bugs'
+        ext.model = 'txt';
+    otherwise
+        ext.model  = engine;
+end
 
 switch style
     case 'model'

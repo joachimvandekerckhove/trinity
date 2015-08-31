@@ -1,4 +1,4 @@
-function output = callbugs_lnx(varargin)
+function options = callbugs_lnx(options)
 % CALLBUGS_LNX  [Not yet implemented] Executes a call to WinBUGS on Linux
 %   CALLBUGS_LNX will execute a call to WinBUGS. Supply a set of options 
 %   through label-value pairs or as a structure. See the Trinity
@@ -11,3 +11,6 @@ function output = callbugs_lnx(varargin)
 
 error_tag('trinity:callbugs_lnx:nobugsinlinux', ...
     'WinBUGS is not supported on Linux.')
+
+% ... but you could try this:
+% options = callbugs_win(options);

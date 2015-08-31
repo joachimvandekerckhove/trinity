@@ -139,7 +139,7 @@ for c = 1:nchains
 end
 
 options.init = cellfun(@get_full_path, initfilename_upd, 'uni', 0);
-
+options.generator = generating_function;
 end
 
 

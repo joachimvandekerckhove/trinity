@@ -11,17 +11,23 @@ function [stats, chains, diagnostics, info] = callbugs(varargin)
 
 options = trinity_input_parser('bugs', varargin{:});
 
+options = trinity_prechecks(options);
+
 switch computer
     case {'PCWIN', 'PCWIN64'}
-        output = calljags_win(options);
+        options = callbugs_win(options);
     case {'GLNX86', 'GLNXA64'}
-        output = calljags_lnx(options);
+        options = callbugs_lnx(options);
     case {'MACI64'}
-        output = calljags_mac(options);
+        options = callbugs_mac(options);
     otherwise
         error_tag('trinity:callbugs:unknownArch', ...
             'Unknown architecture "%s".', computer)
 end
+
+coda = bugs2coda(options);
+
+output = trinity_summary_stats(coda);
 
 stats        = output.stats;
 chains       = output.chains;
