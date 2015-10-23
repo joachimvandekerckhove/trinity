@@ -1,6 +1,9 @@
 function varargout = test(engine)
 % TEST  Test some of the Trinity functionality
 rng(0)
+if ~nargin
+    engine = 'jags')
+end
 
 % Make sure that all Trinity files are in the path
 trinity silent
