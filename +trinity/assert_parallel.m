@@ -1,0 +1,43 @@
+function assert_parallel()
+% ASSERT_PARALLEL  Check if parallellization infrastructure exists
+%   Throws an error if parallellization is not supported.
+
+% (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
+
+switch computer
+    case {'PCWIN', 'PCWIN64'}
+        [havepct, errmsg] = license('checkout', 'distrib_computing_toolbox');
+        if ~havepct
+            trinity.error_tag('trinity:assert_parallel:pctnotfound', ...
+                ['Parallelization under Windows requires the Parallel', ...
+                ' Computing Toolbox, but Trinity could not check out', ...
+                ' a license. The error message was:\n%s'], errmsg)
+        end
+                
+    case {'GLNX86', 'GLNXA64'}
+        if ~test_parallel()
+            cmd = 'sudo apt-get install parallel';
+            trinity.error_tag('trinity:assert_parallel:gnuparallelnotfound', ...
+                ['Parallelization under linux uses GNU parallel, which can' ...
+                ' be obtained from: <a href="http://www.gnu.org/software/' ...
+                'parallel/">http://www.gnu.org/software/parallel/</a>. ' ...
+                '(Or try <a href="matlab:system(''%s'');">%s</a>.)'], ...
+                cmd, cmd)
+        end
+    case {'MACI64'}
+        warning('trinity:assert_parallel:notimplemented', ...
+            'Parallelization is not tested for Mac.')
+        if ~test_parallel()
+            trinity.error_tag('trinity:assert_parallel:gnuparallelnotfound',...
+                ['Parallelization under linux uses GNU parallel, which can' ...
+                ' be obtained from: <a href="http://www.gnu.org/software/' ...
+                'parallel/">http://www.gnu.org/software/parallel/</a>.'])
+        end
+    otherwise
+        trinity.error_tag('trinity:assert_parallel:unknownArch', ...
+            'Unknown architecture "%s".', computer)
+end
+
+
+function s = test_parallel()
+s = ~system('command -v parallel >/dev/null');

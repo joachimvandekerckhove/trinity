@@ -87,13 +87,13 @@ if ~nargin
     return
 end
 
-options = trinity_input_parser(engine, varargin{:});
+options = trinity.input_parser(engine, varargin{:});
 
 switch lower(engine)
     case 'bugs'
-        [stats, chains, diagnostics, info] = callbugs(options);
+        [stats, chains, diagnostics, info] = trinity.callbugs(options);
     case 'jags'
-        [stats, chains, diagnostics, info] = calljags(options);
+        [stats, chains, diagnostics, info] = trinity.calljags(options);
     case 'stan'
-        [stats, chains, diagnostics, info] = callstan(options);
+        [stats, chains, diagnostics, info] = trinity.callstan(options);
 end

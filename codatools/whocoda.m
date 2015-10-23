@@ -39,7 +39,7 @@ for ctr = 1:nlst
         remainder = fns{mark};
         sz = {};
         while true
-            [sz{end+1}, remainder] = strtok(remainder, '_'); %#ok<STTOK>
+            [sz{end+1}, remainder] = strtok(remainder, '_'); %#ok<AGROW,STTOK>
             if isempty(remainder), break, end
         end
         sz = cellfun(@str2double, sz);

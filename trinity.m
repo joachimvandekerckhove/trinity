@@ -14,11 +14,16 @@ switch cmd
     case 'install'
         % You can place trinity_install() in a startup script for silent
         % install at MATLAB boot
-        trinity_install()
+        trinity silent
         disp 'Trinity install complete.'
+    case 'silent'
+        % You can place call trinity('silent') in a startup script for silent
+        % install at MATLAB boot
+        trindir = fileparts(mfilename('fullpath'));
+        subf = {'' 'general' 'codatools' 'figures' 'demos'};
+        list = cellfun(@(x)fullfile(trindir, x), subf, 'uni', 0);
+        addpath(list{:});
     case 'new'
-        % You can use the functional form "trinity_new <name>" to avoid the
-        % interactive function
         name = '';
         while ~isvarname(name)
             name = input('Give your new project a name: ', 's');
@@ -26,10 +31,21 @@ switch cmd
                 disp('Not a valid name. Please begin with [a-Z] and use only [a-Z,0-9].')
             end
         end
-        trinity_new(name)
+        trinity.new(name)
+    case 'test'
+        n = 0;
+        while ~ismember(n, 1:3)
+            n = input('Which engine would you like to test?\n[1] WinBUGS\n[2] JAGS\n[3] Stan\n  : ');
+            if ~ismember(n, 1:3)
+                disp('Not a valid options. Please choose [1-3].')
+            end
+        end
+        list = {'bugs' 'jags' 'stan'};
+        trinity.test(list{n})
     case 'help'
         help('trinity')
     otherwise
         error('trinity:trinity:unknownCommand', ...
-            'Allowed commands are "install", "new", "help".')
+            'Allowed commands are "install", "silent", "new", "test", "help".')
 end
+ 

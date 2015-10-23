@@ -9,7 +9,7 @@ function varargout = codatable(coda, varargin)
 %   The default statistics are the distribution's mean, its standard
 %   deviation, and its mass below zero.
 % 
-%  See also: GRTABLE, CSTATS, GETMATRIXFROMCODA
+%  See also: GRTABLE, CSTATS, GET_MATRIX_FROM_CODA
 % 
 
 % (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
@@ -18,7 +18,7 @@ function varargout = codatable(coda, varargin)
 [coda, target, func_list] = parseInput(coda, varargin{:});
 
 % Select fields by regular expression
-[selection, n_sel] = select_fields(coda, target);
+[selection, n_sel] = trinity.select_fields(coda, target);
 
 % Then loop over selected fields
 mtx = cell(n_sel, numel(func_list));
@@ -69,7 +69,7 @@ function [w, target, func_list] = parseInput(coda, varargin)
 
 switch nargin
     case 0
-        error_tag('trinity:codatable:parseInput:insufficientInput', ...
+        trinity.error_tag('trinity:codatable:parseInput:insufficientInput', ...
             'Insufficient input to codatable.')
     case 1
         target = '.';
@@ -82,7 +82,7 @@ switch nargin
             target = '.';
             func_list = varargin;
         else
-            error_tag('trinity:codatable:parseInput:badInput1', ...
+            trinity.error_tag('trinity:codatable:parseInput:badInput1', ...
                 'Second argument to codatable was of illegal type "%s".', ...
                 class(varargin{1}))
         end
@@ -90,13 +90,13 @@ switch nargin
         if isa(varargin{1}, 'char')
             target = varargin{1};
         else
-            error_tag('trinity:codatable:parseInput:badInput2', ...
+            trinity.error_tag('trinity:codatable:parseInput:badInput2', ...
                 'Second argument to codatable was of illegal type "%s".', ...
                 class(varargin{1}))
         end
         func_list = varargin(2:end);
         if ~all(cellfun(@(x)isa(x,'function_handle'), func_list))
-            error_tag('trinity:codatable:parseInput:badInput3', ...
+            trinity.error_tag('trinity:codatable:parseInput:badInput3', ...
                 'Final arguments to codatable must be function handles.')
         end
 end
@@ -110,11 +110,11 @@ elseif ischar(coda) % If user tried command syntax
     if length(dbstack)==2
         w = evalin('base', coda);
     else
-        error_tag('trinity:codatable:parseInput:noCommandSyntac', ...
+        trinity.error_tag('trinity:codatable:parseInput:noCommandSyntac', ...
             'Command syntax for codatable is only valid from the command line.')
     end
 else
-    error_tag('trinity:codatable:parseInput:badInput4', ...
+    trinity.error_tag('trinity:codatable:parseInput:badInput4', ...
         'First argument to codatable must be coda structure or matrix.')
 end
 
@@ -152,7 +152,7 @@ i_islgc = cellfun(@islogical, mtx(2,:));
 
 if ~all(i_isstr|i_isnum)
     f = find(~all(i_isstr|i_isnum), 1, 'first');
-    error_tag('trinity:codatable:unknownOutputType', ...
+    trinity.error_tag('trinity:codatable:unknownOutputType', ...
         'Printing of variables of type %s is not implemented.', ...
         class(mtx(2,f)))
 end

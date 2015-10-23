@@ -18,7 +18,7 @@ ch = 1:size(chains.(ind),2);
 
 if nargin<2  % Choose a chain based on highest mean deviance
     if ~ismember(fnm, 'deviance')
-        error('trinity:rmchain:insufficientInput', ...
+        trinity.error_tag('trinity:rmchain:insufficientInput', ...
             'RMCHAIN with one input parameter requires a ''deviance'' field in the coda structure.')
     end
     [~, num] = max(mean(chains.deviance));

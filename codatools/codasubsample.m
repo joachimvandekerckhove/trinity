@@ -17,17 +17,17 @@ function [sample, fnms] = codasubsample(coda, target, n)
 % (c)2013- Joachim Vandekerckhove. See license.txt for licensing information.
 
 if nargin ~= 3
-    error_tag('trinity:codasubsample:insufficientInput', ...
+    trinity.error_tag('trinity:codasubsample:insufficientInput', ...
         'CODASUBSAMPLE requires exactly three input parameters.')
 end
 
 % Select fields
-[fnms, n_sel] = select_fields(coda, target);
+[fnms, n_sel] = trinity.select_fields(coda, target);
 
 % Check that there are enough samples
 nsamp = numel(coda.(fnms{1}));
 if nsamp < n
-    error_tag('trinity:codasubsample:youAskTooMuch', ...
+    trinity.error_tag('trinity:codasubsample:youAskTooMuch', ...
         'You requested %i samples, but only %i are available.', n, nsamp)
 end
 

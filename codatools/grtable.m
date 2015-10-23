@@ -36,7 +36,7 @@ if all(censor | isnan(rhat))
     if any(isnan(rhat))
         fprintf(' (but some nodes returned NaN)')
     end
-    fprintf('.\n')
+    fprintf('; highest Rhat was %g.\n', max(rhat(~isnan(rhat))))
     return
 end
 

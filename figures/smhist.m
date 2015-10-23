@@ -15,7 +15,7 @@ function varargout = smhist(coda, varargin)
 % Check input
 if nargin < 2
     if nargin < 1
-        error_tag('trinity:smhist:badInput', ...
+        trinity.error_tag('trinity:smhist:badInput', ...
             'Insufficient input to smhist.')
     end
     target = '.';
@@ -24,13 +24,13 @@ else
 end
 
 colorOrder = get(0, 'DefaultAxesColorOrder');
-set(0, 'DefaultAxesColorOrder', trinity_preferences('colororder'))
+set(0, 'DefaultAxesColorOrder', trinity.preferences('colororder'))
 
 if isnumeric(coda)  % If user gave chains instead of coda structure
     [h, y, x] = smhist_sub(coda, 1, varargin{:});
 else  % Select fields by regular expression
     if ~isempty(varargin), varargin(1) = []; end
-    [selection, n_sel] = select_fields(coda, target);
+    [selection, n_sel] = trinity.select_fields(coda, target);
     if ~n_sel, return, end
     
     hs = ishold();  % get hold status

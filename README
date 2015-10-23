@@ -5,7 +5,7 @@ To use, start with the command:
 >> trinity install
 
 To test the installation, try:
->> trinity_test
+>> trinity.test
 
 To get started, try:
 >> help callbayes

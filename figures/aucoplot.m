@@ -15,7 +15,7 @@ function varargout = aucoplot(coda, varargin)
 % Check input
 if nargin < 2
     if nargin < 1
-        error_tag('trinity:aucoplot:badInput', ...
+        trinity.error_tag('trinity:aucoplot:badInput', ...
             'Insufficient input to aucoplot.')
     end
     target = '.';
@@ -24,7 +24,7 @@ else
 end
 
 colorOrder = get(0, 'DefaultAxesColorOrder');
-set(0, 'DefaultAxesColorOrder', trinity_preferences('colororder'))
+set(0, 'DefaultAxesColorOrder', trinity.preferences('colororder'))
 
 maxlag = 40; % number of lags to display
 
@@ -34,7 +34,7 @@ if isnumeric(coda) % If user gave chains instead of coda structure
     aucoplot_sub(coda, 'parameter', maxlag, varargin{:})
 else  % Select fields by regular expression
     varargin(1) = [];
-    [selection, n_sel] = select_fields(coda, target);
+    [selection, n_sel] = trinity.select_fields(coda, target);
     % Then loop over selected fields
     h = zeros(n_sel, 1);
     for parameter = 1:n_sel

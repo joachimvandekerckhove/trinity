@@ -14,7 +14,7 @@ function varargout = traceplot(coda, varargin)
 % Check input
 if nargin < 2
     if nargin < 1
-        error_tag('trinity:traceplot:badInput', ...
+        trinity.error_tag('trinity:traceplot:badInput', ...
             'Insufficient input to traceplot.')
     end
     target = '.';
@@ -23,7 +23,7 @@ else
 end
 
 colorOrder = get(0, 'DefaultAxesColorOrder');
-set(0, 'DefaultAxesColorOrder', trinity_preferences('colororder'))
+set(0, 'DefaultAxesColorOrder', trinity.preferences('colororder'))
 
 if isnumeric(coda) % If user gave chains instead of coda structure
     figure()
@@ -31,7 +31,7 @@ if isnumeric(coda) % If user gave chains instead of coda structure
     traceplot_sub(coda, 'parameter', varargin{:})
 else  % Select fields by regular expression
     varargin(1) = [];
-    [selection, n_sel] = select_fields(coda, target);
+    [selection, n_sel] = trinity.select_fields(coda, target);
     % Then loop over selected fields
     h = zeros(n_sel, 1);
     for parameter = 1:n_sel
