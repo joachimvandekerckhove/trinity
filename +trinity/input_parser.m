@@ -12,7 +12,7 @@ switch lower(engine)
     case 'stan'
         defaults = defaults_stan();
     otherwise
-        trinity.error_tag('trinity:trinity.input_parser:unknownEngine', ...
+        trinity.error_tag('trinity:input_parser:unknownEngine', ...
             'Unknown engine "%s".', engine)
 end
 defaults = updatestruct(defaults_all(), defaults, false);
@@ -26,7 +26,7 @@ else % So it has to be label-value pairs
     labels = varargin(1:2:end);
     values = varargin(2:2:end);
     if numel(labels)~=numel(values)
-        trinity.error_tag('trinity:trinity.input_parser:oddInput', ...
+        trinity.error_tag('trinity:input_parser:oddInput', ...
             'To list options, make label-value pairs.')
     end
     for l = 1:numel(labels)

@@ -35,7 +35,7 @@ workingdir = options.workingdir;
 if ~exist(workingdir, 'dir')
     [status, message]  = mkdir(workingdir);
     if status ~= 1
-        trinity.error_tag('trinity:trinity.prechecks:wdirError', message);
+        trinity.error_tag('trinity:prechecks:wdirError', message);
     end
 end
 
@@ -55,7 +55,7 @@ modelfilename = options.modelfilename;
 switch class(model)
     case 'char'  % it can be a filename...
         if ~isempty(modelfilename)
-            trinity.error_tag('trinity:trinity.prechecks:check_model:conflictinginputmodel', ...
+            trinity.error_tag('trinity:prechecks:check_model:conflictinginputmodel', ...
                 'If the model is defined as a file name, "modelfilename" must be empty.');
         end
         modelfilename = model;
@@ -85,7 +85,7 @@ datafilename = options.datafilename;
 switch class(data)
     case 'char'    % it can be a filename...
         if ~isempty(datafilename)
-            trinity.error_tag('trinity:trinity.prechecks:check_data:conflictinginputdata', ...
+            trinity.error_tag('trinity:prechecks:check_data:conflictinginputdata', ...
                 'If the data is defined as a file name, "datafilename" must be empty.');
         end
         datafilename = data;
@@ -124,7 +124,7 @@ for c = 1:nchains
     switch class(init{c})
         case 'char'    % it can be a filename...
             if ~isempty(initfilename)
-                trinity.error_tag('trinity:check_inits:trinity.prechecks:conflictinginputinit', ...
+                trinity.error_tag('trinity:check_inits:prechecks:conflictinginputinit', ...
                     'If the initial values is defined as a file name, "initfilename" must be empty.');
             end
             initfilename_upd{c} = init{c};
@@ -157,7 +157,7 @@ for c = 1:nchains
             if isempty(logfilename)
                 logfilename_upd{c} = trinity.untitled(options, 'log', c);
             else
-                trinity.error_tag('trinity:check_log:trinity.prechecks:invalidinput', ...
+                trinity.error_tag('trinity:check_log:prechecks:invalidinput', ...
                     'Invalid log file name.');
             end
         case 'char'    % it can be a root...
@@ -226,12 +226,12 @@ function assertunlocked(filename, qtype)
 switch qtype
     case 'file'
         if ~exist(filename, 'file')
-            trinity.error_tag('trinity:trinity.prechecks:assertunlocked:filemissing', ...
+            trinity.error_tag('trinity:prechecks:assertunlocked:filemissing', ...
                 'Unable to access "%s" (file missing).', filename);
         end
     case 'dir'
         if ~iswritable(filename)
-            trinity.error_tag('trinity:trinity.prechecks:assertunlocked:unwritablewdir', ...
+            trinity.error_tag('trinity:prechecks:assertunlocked:unwritablewdir', ...
                 ['Could not write to directory "%s" ', ...
                 '(not a local permissions issue).'], filename);
         end
@@ -239,11 +239,11 @@ end
 
 [~, f] = fileattrib(filename);
 if ~f.UserRead
-    trinity.error_tag('trinity:trinity.prechecks:assertunlocked:readprotected', ...
+    trinity.error_tag('trinity:prechecks:assertunlocked:readprotected', ...
         'Unable to access "%s" (read-protected).', filename);
 end
 if ~f.UserWrite
-    trinity.error_tag('trinity:trinity.prechecks:assertunlocked:writeprotected', ...
+    trinity.error_tag('trinity:prechecks:assertunlocked:writeprotected', ...
         'Unable to access "%s" (write-protected).', filename);
 end
 
@@ -281,7 +281,7 @@ function s = iswritable(varargin)
 %   12/08/2005
 
 if nargin > 1
-    trinity.error_tag('trinity:trinity.prechecks:iswritable:badInput', ...
+    trinity.error_tag('trinity:prechecks:iswritable:badInput', ...
         'Too many input arguments');
 elseif nargin == 1
     folderName = varargin{1};

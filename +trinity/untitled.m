@@ -87,7 +87,7 @@ switch style
             end
         end
     otherwise
-        trinity.error_tag('trinity:trinity.untitled:unknownstyle', ...
+        trinity.error_tag('trinity:untitled:unknownstyle', ...
             'Unknown filename style "%s".', style)
 end
 
